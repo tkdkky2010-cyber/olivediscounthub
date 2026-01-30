@@ -1,0 +1,40 @@
+{
+    "Index": {
+        "title": "올리브 디스카운트 허브",
+        "heroTitle": "올리브영 베스트",
+        "heroSubtitle": "엄선된 K-뷰티 상품을 글로벌 고객에게",
+        "addToCart": "장바구니 담기",
+        "price": "가격: {price}"
+    },
+    "LocaleSwitcher": {
+        "label": "언어 변경",
+        "switchLocale": "{locale}로 변경"
+    },
+    "TrustBanner": {
+        "authenticTitle": "100% 정품",
+        "authenticDesc": "올리브영 코리아 직소싱",
+        "shippingTitle": "서울 직배송",
+        "shippingDesc": "Express 배송으로 집 앞까지",
+        "qualityTitle": "최고의 K-뷰티",
+        "qualityDesc": "엄선된 랭킹 상품"
+    },
+    "ProductCard": {
+        "addToCart": "장바구니 담기",
+        "seeCheck": "올리브영에서 보기",
+        "title": "{title}"
+    },
+    "Cart": {
+        "title": "장바구니",
+        "clearCart": "장바구니 비우기",
+        "empty": "장바구니가 비었습니다",
+        "startShopping": "쇼핑 하러가기",
+        "summary": "주문 요약",
+        "subtotal": "소계",
+        "shipping": "배송비",
+        "free": "무료",
+        "total": "총 결제금액",
+        "checkout": "결제하기",
+        "secure": "안전 결제",
+        "tax": "부가세 포함"
+    }
+}

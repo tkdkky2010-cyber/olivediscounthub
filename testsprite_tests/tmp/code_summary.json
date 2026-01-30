@@ -1,0 +1,47 @@
+{
+    "tech_stack": [
+        "TypeScript",
+        "Next.js",
+        "React",
+        "Tailwind CSS",
+        "next-intl"
+    ],
+    "features": [
+        {
+            "name": "Internationalization",
+            "description": "Multi-language support using next-intl, handling 10 locales.",
+            "files": [
+                "src/i18n",
+                "messages",
+                "src/app/[locale]/layout.tsx",
+                "src/middleware.ts",
+                "src/navigation.ts",
+                "src/config.ts"
+            ]
+        },
+        {
+            "name": "Currency Management",
+            "description": "Logic for currency conversion, exchange rates, and real-time updates.",
+            "files": [
+                "src/lib/currency.ts"
+            ]
+        },
+        {
+            "name": "Product Display",
+            "description": "Components for displaying products with responsive card layout and localized pricing.",
+            "files": [
+                "src/components/ProductCard.tsx",
+                "src/app/[locale]/page.tsx"
+            ]
+        },
+        {
+            "name": "Project Structure",
+            "description": "Core layout and configuration files.",
+            "files": [
+                "src/app/layout.tsx",
+                "src/components/Header.tsx",
+                "src/app/globals.css"
+            ]
+        }
+    ]
+}

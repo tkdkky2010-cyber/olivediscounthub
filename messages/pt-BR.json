@@ -1,0 +1,40 @@
+{
+    "Index": {
+        "title": "Olive Discount Hub",
+        "heroTitle": "O Melhor de Olive Young",
+        "heroSubtitle": "K-Beauty curada para o público global",
+        "addToCart": "Adicionar ao Carrinho",
+        "price": "Preço: {price}"
+    },
+    "LocaleSwitcher": {
+        "label": "Mudar idioma",
+        "switchLocale": "Mudar para {locale}"
+    },
+    "TrustBanner": {
+        "authenticTitle": "100% Autêntico",
+        "authenticDesc": "Direto de Olive Young Coreia",
+        "shippingTitle": "Direto de Seul",
+        "shippingDesc": "Envio expresso para sua porta",
+        "qualityTitle": "O Melhor de K-Beauty",
+        "qualityDesc": "Seleção curada dos melhores itens"
+    },
+    "ProductCard": {
+        "addToCart": "Adicionar ao Carrinho",
+        "seeCheck": "Ver na Oliveyoung",
+        "title": "{title}"
+    },
+    "Cart": {
+        "title": "Carrinho de Compras",
+        "clearCart": "Limpar Carrinho",
+        "empty": "Seu carrinho está vazio",
+        "startShopping": "Começar a Comprar",
+        "summary": "Resumo do Pedido",
+        "subtotal": "Subtotal",
+        "shipping": "Envio",
+        "free": "Grátis",
+        "total": "Total",
+        "checkout": "Finalizar Compra",
+        "secure": "Pagamento Seguro",
+        "tax": "Impostos incluídos"
+    }
+}

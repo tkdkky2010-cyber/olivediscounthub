@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "project": "Olive Discount Hub",
+    "date": "2026-01-29",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Olive Discount Hub is a multi-lingual e-commerce platform focused on selling Olive Young products across Europe and South America, providing premium UI with real-time currency conversion and responsive product display.",
+  "core_goals": [
+    "Enable real-time currency exchange rate updates with reliable fallback.",
+    "Support seamless internationalization across 10 locales with synchronized language and currency switching.",
+    "Deliver a responsive and aesthetically pleasing product display adaptable to multiple devices.",
+    "Ensure robust user experience with graceful error handling and consistent UI behavior."
+  ],
+  "key_features": [
+    "Real-time currency conversion using exchange rates fetched and updated every 5 minutes.",
+    "Multi-language support using next-intl with 10 different locales and synchronized currency symbols.",
+    "Responsive grid layout for product display adapting from mobile (1 column) to desktop (up to 4 columns).",
+    "Fallback UI for loading and error states during currency data fetch.",
+    "Language and currency switcher integrated in the header updating URL locale and pricing dynamically.",
+    "Product card UI implementing text truncation and overflow handling for long product titles and prices."
+  ],
+  "user_flow_summary": [
+    "User lands on the platform with default locale and currency derived from URL.",
+    "User selects a different language from the header language switcher, triggering locale and currency updates reflecting immediately across the UI.",
+    "Currency exchange rates are auto-fetched and refreshed every 5 minutes in the background, updating product prices in real-time.",
+    "Product grid layout dynamically adjusts based on screen size ensuring usability on mobile, tablet, and desktop devices.",
+    "On currency fetching failure, a fallback or loading state is displayed to maintain user experience without UI breaks.",
+    "Product cards truncate long titles and adapt price display to prevent layout overflow."
+  ],
+  "validation_criteria": [
+    "Currency exchange rate fetching occurs every 5 minutes without duplicate polling or memory leaks.",
+    "Language switcher URL locale updates correctly and all text content updates instantly with translations.",
+    "Currency symbol and price convert appropriately per active locale (all 10 supported languages).",
+    "No missing translation keys exist across all locale message files.",
+    "Product grid layout matches the expected column count by viewport size (1,2,3/4).",
+    "UI gracefully handles long price formats and product titles without breaking layout.",
+    "Fallback UI displays during currency loading or on errors without causing crashes or degraded UX."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "next-intl"
+    ],
+    "features": [
+      {
+        "name": "Internationalization",
+        "description": "Multi-language support using next-intl, handling 10 locales.",
+        "files": [
+          "src/i18n",
+          "messages",
+          "src/app/[locale]/layout.tsx",
+          "src/middleware.ts",
+          "src/navigation.ts",
+          "src/config.ts"
+        ]
+      },
+      {
+        "name": "Currency Management",
+        "description": "Logic for currency conversion, exchange rates, and real-time updates.",
+        "files": [
+          "src/lib/currency.ts"
+        ]
+      },
+      {
+        "name": "Product Display",
+        "description": "Components for displaying products with responsive card layout and localized pricing.",
+        "files": [
+          "src/components/ProductCard.tsx",
+          "src/app/[locale]/page.tsx"
+        ]
+      },
+      {
+        "name": "Project Structure",
+        "description": "Core layout and configuration files.",
+        "files": [
+          "src/app/layout.tsx",
+          "src/components/Header.tsx",
+          "src/app/globals.css"
+        ]
+      }
+    ]
+  }
+}

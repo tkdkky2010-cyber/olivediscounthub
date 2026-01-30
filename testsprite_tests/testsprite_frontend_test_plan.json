@@ -1,0 +1,247 @@
+[
+  {
+    "id": "TC001",
+    "title": "Real-time currency exchange rate fetching success",
+    "description": "Verify that currency exchange rates are fetched successfully every 5 minutes and prices update accordingly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the Olive Discount Hub homepage with default locale."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that currency exchange rates are fetched on initial load."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure product prices display the converted values using the fetched exchange rates."
+      },
+      {
+        "type": "action",
+        "description": "Wait for 5 minutes."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that a new exchange rate fetch occurs exactly once after 5 minutes."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm product prices update dynamically according to the new exchange rates."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Currency exchange rate fetching failure fallback UI",
+    "description": "Ensure the application displays fallback or error UI gracefully when currency exchange rate fetching fails.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate failure in fetching currency exchange rates (e.g., API down or network error)."
+      },
+      {
+        "type": "action",
+        "description": "Load the Olive Discount Hub homepage."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that a fallback or loading UI is displayed in place of currency data."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the UI does not crash or freeze and remains responsive."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure product prices either display last known rates or appropriate placeholder."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Language switcher updates locale and currency synchronously",
+    "description": "Verify that selecting a different language in the header updates the locale in the URL and synchronously changes the currency symbols and text content.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load the Olive Discount Hub homepage with default locale."
+      },
+      {
+        "type": "action",
+        "description": "Click the language switcher in the header and select a different supported language."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the URL updates to reflect the selected locale."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that all textual content on the page updates instantly to the selected language without page reload."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the currency symbols and product prices update to the correct currency for the selected locale."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "No missing translation keys across all locales",
+    "description": "Validate that all 10 supported locale message files contain translations for all UI text keys with no missing entries.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load all locale message files for the 10 supported languages."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that every UI text key present in the default locale is also present in all other locale files."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that no translation keys are empty or null."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Responsive product grid layout adjusts columns by viewport size",
+    "description": "Ensure product grid layout adapts to the correct number of columns based on device viewport: 1 column for mobile, 2 for small tablets, 3-4 for desktops.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the product page on a mobile viewport (small screen)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the product grid displays with exactly 1 column."
+      },
+      {
+        "type": "action",
+        "description": "Resize the viewport to a tablet size."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the product grid changes to 2 columns."
+      },
+      {
+        "type": "action",
+        "description": "Resize the viewport to desktop sizes."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the product grid displays 3 to 4 columns depending on desktop viewport width."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Product card UI handles long product titles with text truncation",
+    "description": "Verify that product cards correctly truncate long product titles and prevent overflow to maintain consistent layout.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load product cards with extremely long product titles."
+      },
+      {
+        "type": "assertion",
+        "description": "Check that long titles are truncated with ellipsis or other truncation methods as designed."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm product card layout remains consistent and no overflow or wrap-around breaking UI occurs."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Product price display adapts to long price formats without layout breakage",
+    "description": "Validate that product price display adjusts properly for long or complex formatted prices and does not break the product card layout.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate product prices with long decimal values or large numbers caused by currency conversion."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify price text displays fully or uses truncation or wrapping without overlapping adjacent UI elements."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm product cards retain alignment and consistent sizing."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Currency exchange rate polling should avoid duplicate requests and memory leaks",
+    "description": "Ensure the currency rate fetching logic polls exactly once every 5 minutes without overlap or duplicate polling and does not introduce memory leaks over extended usage.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Start the application and monitor network requests over a period of 15+ minutes."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify only one fetch request is sent every 5 minutes."
+      },
+      {
+        "type": "assertion",
+        "description": "Ensure no multiple or overlapping currency fetch requests occur simultaneously."
+      },
+      {
+        "type": "action",
+        "description": "Use profiling to monitor for memory leaks related to currency polling timers or subscriptions."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no increasing memory consumption or event listener buildup is detected."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Language and currency switcher updates URL and dynamically updates UI instantly",
+    "description": "Verify that using the language and currency switcher in the header updates the URL locale param and immediately updates UI texts and pricing without requiring page reload.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to homepage with default locale and currency."
+      },
+      {
+        "type": "action",
+        "description": "Interact with the language and currency switcher to select a different locale."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the locale parameter in the URL changes accordingly."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all textual UI elements update instantly to the selected language."
+      },
+      {
+        "type": "assertion",
+        "description": "Check product prices update to show the correct currency symbol and converted prices dynamically."
+      }
+    ]
+  }
+]

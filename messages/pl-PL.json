@@ -1,0 +1,13 @@
+{
+    "Index": {
+        "title": "Olive Discount Hub",
+        "heroTitle": "Best of Olive Young",
+        "heroSubtitle": "Curated K-Beauty for the Global Audience",
+        "addToCart": "Add to Cart",
+        "price": "Price: {price}"
+    },
+    "LocaleSwitcher": {
+        "label": "Change language",
+        "switchLocale": "Switch to {locale}"
+    }
+}

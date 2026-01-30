@@ -1,0 +1,40 @@
+{
+    "Index": {
+        "title": "Olive Discount Hub",
+        "heroTitle": "Olive Young'ın En İyileri",
+        "heroSubtitle": "Küresel Kitle için Özenle Seçilmiş K-Beauty",
+        "addToCart": "Sepete Ekle",
+        "price": "Fiyat: {price}"
+    },
+    "LocaleSwitcher": {
+        "label": "Dili değiştir",
+        "switchLocale": "{locale} diline geç"
+    },
+    "TrustBanner": {
+        "authenticTitle": "%100 Orijinal",
+        "authenticDesc": "Doğrudan Olive Young Kore'den temin edilmiştir",
+        "shippingTitle": "Seul'den Direkt",
+        "shippingDesc": "Kapınıza ekspres kargo",
+        "qualityTitle": "K-Beauty'nin En İyisi",
+        "qualityDesc": "En iyi ürünlerden seçilmiş koleksiyon"
+    },
+    "ProductCard": {
+        "addToCart": "Sepete Ekle",
+        "seeCheck": "Oliveyoung'da Gör",
+        "title": "{title}"
+    },
+    "Cart": {
+        "title": "Alışveriş Sepeti",
+        "clearCart": "Sepeti Temizle",
+        "empty": "Sepetiniz boş",
+        "startShopping": "Alışverişe Başla",
+        "summary": "Sipariş Özeti",
+        "subtotal": "Ara Toplam",
+        "shipping": "Kargo",
+        "free": "Ücretsiz",
+        "total": "Toplam",
+        "checkout": "Ödemeye Geç",
+        "secure": "Güvenli Ödeme",
+        "tax": "Vergiler dahil"
+    }
+}

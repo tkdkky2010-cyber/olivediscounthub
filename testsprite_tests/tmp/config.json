@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "1차",
+  "executionArgs": {
+    "projectName": "olive-discount-hub",
+    "projectPath": "/Users/jasonkim/.gemini/antigravity/scratch/olive-discount-hub",
+    "testIds": [
+      "scrape_test"
+    ],
+    "additionalInstruction": "Create a test that imports getBestProducts from src/lib/oliveyoung.ts and runs it. Using ts-node or similar. Assert that the result array has length > 0. Check if the first item is from FALLBACK_PRODUCTS (by checking name or ID) or actual scraped data. Log \"Using Fallback Data\" or \"Scraping Success\".",
+    "envs": {
+      "API_KEY": "sk-user-IYClf0HcyHHuJTd84MPPNDetrYl_oH3SZBLdDo3H0E0kBhvvcKlnb2AgSuhO0faPcHRGJ7PQ0glmLs6nCaeR-QEyQSFDjAkMMfCSchK0s3uczD7AWdh-GaFfukHL8pXyQfU"
+    }
+  },
+  "proxy": "http://94d68923-2856-4778-b77f-c69077ba630c:qsUBNPXM8IV1WyKGkondZxKDG5bTqjWo@tun.testsprite.com:8080"
+}
