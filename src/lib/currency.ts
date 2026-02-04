@@ -12,6 +12,7 @@ const RATES: Record<string, number> = {
     'MXN': 0.015,   // Mex$1 ≈ 66 KRW -> 1/66
     'RUB': 0.068,   // ₽1 ≈ 14.7 KRW -> 1/14.7
     'TRY': 0.026,   // ₺1 ≈ 38 KRW -> 1/38
+    'PLN': 0.0030,  // 1 PLN ≈ 330 KRW
 };
 
 // Symbols for display
@@ -26,6 +27,7 @@ export const CURRENCY_SYMBOLS: Record<string, string> = {
     'MXN': 'Mex$',
     'RUB': '₽',
     'TRY': '₺',
+    'PLN': 'zł',
 };
 
 // Helper to convert price
@@ -43,20 +45,45 @@ export function convertPrice(priceInKrw: number, targetCurrency: string): string
 }
 
 // Simulated fetch function for "Real-time" updates
+// Helper to determine currency from locale
+export function getTargetCurrency(locale: string): string {
+    if (locale === 'ko') return 'KRW';
+    if (locale === 'en') return 'USD';
+    if (locale.startsWith('es')) return locale === 'es-MX' ? 'MXN' : 'EUR';
+    if (locale.startsWith('pt')) return locale === 'pt-BR' ? 'BRL' : 'EUR';
+    if (locale.startsWith('fr')) return 'EUR'; // France -> Euro
+    if (locale.startsWith('de')) return 'EUR'; // Germany -> Euro
+    if (locale.startsWith('it')) return 'EUR'; // Italy -> Euro
+    if (locale.startsWith('nl')) return 'EUR'; // Netherlands -> Euro
+    if (locale.startsWith('ru')) return 'RUB';
+    if (locale.startsWith('tr')) return 'TRY';
+    if (locale.startsWith('pl')) return 'PLN';
+    if (locale === 'ja') return 'JPY';
+    return 'USD'; // Default
+}
+
+// Real-time fetch from open API
 export async function fetchExchangeRates(): Promise<Record<string, number>> {
-    // In a real app, fetch from an API like https://api.exchangerate-api.com/v4/latest/KRW
-    // Here we assume "Google Finance" behavior by returning our mock map
-    // We can add a small random fluctuation to simulate "live" data
-    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+    try {
+        // Free, no-key API for KRW base
+        const res = await fetch('https://api.exchangerate-api.com/v4/latest/KRW', { next: { revalidate: 3600 } });
 
-    const fluctuatedRates = { ...RATES };
-    // Add +/- 1% randomization for demo effect
-    Object.keys(fluctuatedRates).forEach(key => {
-        if (key !== 'KRW') {
-            const change = 1 + (Math.random() * 0.02 - 0.01);
-            fluctuatedRates[key] *= change;
-        }
-    });
+        if (!res.ok) throw new Error('Failed to fetch rates');
 
-    return fluctuatedRates;
+        const data = await res.json();
+        const apiRates = data.rates;
+
+        // Invert rates: API gives 1 KRW = x USD (e.g. 0.00075)
+        // Our app expects exactly this format (1 KRW = x Target), so we can use directly.
+        // We override our fallback RATES with real data.
+
+        return {
+            ...RATES, // Keep fallbacks for missing keys
+            ...apiRates
+        };
+
+    } catch (error) {
+        console.error('[Currency] API Failed, using fallback:', error);
+        return RATES;
+    }
 }

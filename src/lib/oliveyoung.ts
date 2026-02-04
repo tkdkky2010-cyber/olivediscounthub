@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 export interface Product {
     id: number;
     rank: number;
+    category: string;
     brand: string;
     name: string;
     originalPrice: number | null;
@@ -16,6 +17,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     {
         id: 1,
         rank: 1,
+        category: 'all',
         brand: 'Torriden',
         name: '[2025 Awards Winner] Torriden Dive-In Low Molecule Hyaluronic Acid Mask 10 Sheets',
         originalPrice: 30000,
@@ -26,6 +28,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     {
         id: 2,
         rank: 2,
+        category: 'mask',
         brand: 'Mediheal',
         name: '[Jan Pick] Mediheal Essential Mask 10+1 Special Set',
         originalPrice: 20000,
@@ -36,6 +39,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     {
         id: 3,
         rank: 3,
+        category: 'food',
         brand: 'Crunky',
         name: '[Jan Pick] Crunky Crunch Ball Protein Shake',
         originalPrice: null,
@@ -46,6 +50,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     {
         id: 4,
         rank: 4,
+        category: 'skincare',
         brand: 'Menokin',
         name: '[Jan Pick] Menokin 30s Quick Bubble Mask',
         originalPrice: 28500,
@@ -56,6 +61,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     {
         id: 5,
         rank: 5,
+        category: 'skincare',
         brand: 'Torriden',
         name: '[#1 Serum] Torriden Dive-In Serum Refill Set',
         originalPrice: 36000,
@@ -74,6 +80,7 @@ export async function getBestProducts(): Promise<Product[]> {
         const validProducts = (scrapedData as any[]).map(item => ({
             id: Number(item.id), // Ensure number
             rank: Number(item.rank),
+            category: String(item.category || 'all'), // New field
             brand: String(item.brand),
             name: String(item.name),
             originalPrice: item.originalPrice ? Number(String(item.originalPrice).replace(/,/g, '')) : null,

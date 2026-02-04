@@ -7,6 +7,7 @@ import { translateText } from '@/lib/translate';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import { useTranslations } from 'next-intl';
+import { getTargetCurrency } from '@/lib/currency';
 
 interface ProductCardProps {
     id: string | number;
@@ -33,17 +34,7 @@ export default function ProductCard({
     const { addToCart } = useCart();
     const { addToast } = useToast();
 
-    const getTargetCurrency = (loc: string) => {
-        if (loc === 'ko') return 'KRW';
-        if (loc === 'en') return 'USD'; // Default global
-        if (loc.startsWith('es')) return 'EUR'; // Default Spanish to EUR if not MX
-        if (loc.startsWith('pt')) return 'EUR'; // Default Portuguese to EUR (Portugal) if not BR
-        if (loc === 'es-MX') return 'MXN';
-        if (loc === 'pt-BR') return 'BRL';
-        if (loc === 'ru') return 'RUB';
-        return 'USD';
-    };
-
+    // Use centralized currency logic
     const targetCurrency = getTargetCurrency(locale);
 
     // Currency Hook
@@ -52,8 +43,9 @@ export default function ProductCard({
     // Calculate converted price for Cart
     const convertedPrice = getConvertedPrice(currentPrice);
 
-    // Translation state - now handled by next-intl or mock
-    const translatedTitle = t('title', { title }); // Mock translation or pass through
+    // Translation state
+    const translatedTitle = translateText(title, locale);
+    const translatedBrand = translateText(brand, locale);
 
     // Use proxy for Olive Young images to bypass 403
     const displayImageUrl = imageUrl.startsWith('http') && imageUrl.includes('oliveyoung.co.kr')
@@ -63,7 +55,7 @@ export default function ProductCard({
     const handleAddToCart = () => {
         addToCart({
             id: Number(id),
-            name: translatedTitle,
+            name: title, // Store raw Korean title for dynamic translation in Cart
             brand,
             imageUrl: displayImageUrl,
             originalPrice: Math.round(currentPrice), // Store current KRW price as base
@@ -98,43 +90,58 @@ export default function ProductCard({
             </div>
 
             <div className="flex flex-1 flex-col p-6">
-                <span className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">{brand}</span>
-                <h3 className="mb-4 text-base font-medium text-gray-900 line-clamp-2 min-h-[48px]" title={translatedTitle}>
+                <span className="text-xs font-bold text-[#9bc32d] mb-1.5 uppercase tracking-wider">{translatedBrand}</span>
+                <h3 className="mb-3 text-[17px] font-bold text-[#1a1a1a] leading-[1.4] tracking-tight group-hover:text-[#6ab04c] transition-colors" title={translatedTitle}>
                     {translatedTitle}
                 </h3>
 
-                <div className="mt-auto pt-4 border-t border-gray-50">
+                <div className="mt-auto pt-4 border-t border-gray-50/50">
                     <div className="flex flex-col items-end mb-4">
                         {originalPrice && originalPrice > currentPrice && (
-                            <span className="text-sm text-gray-400 line-through">
-                                {ratesLoading ? '...' : formatPrice(originalPrice)}
-                            </span>
+                            <div className="flex items-center gap-1.5 mb-0.5">
+                                <span className="bg-red-50 text-red-500 text-[10px] font-bold px-1.5 py-0.5 rounded-sm">
+                                    {Math.round(((originalPrice - currentPrice) / originalPrice) * 100)}%
+                                </span>
+                                <span className="text-sm text-gray-400 line-through decoration-gray-300">
+                                    {ratesLoading ? '...' : formatPrice(originalPrice)}
+                                </span>
+                            </div>
                         )}
-                        <span className="text-xl font-bold text-gray-900">
+                        <span className="text-[22px] font-black text-[#111] tracking-tight leading-none bg-gradient-to-br from-gray-900 to-gray-700 bg-clip-text text-transparent">
                             {ratesLoading ? 'Loading...' : formatPrice(currentPrice)}
                         </span>
                         {/* Show KRW reference purely for debugger/trust */}
                         {locale !== 'ko' && (
-                            <span className="text-[10px] text-gray-300 mt-1">
+                            <span className="text-[10px] text-gray-300 mt-0.5 font-medium">
                                 ({new Intl.NumberFormat('ko-KR').format(currentPrice)} KRW)
                             </span>
                         )}
                     </div>
 
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2.5">
                         <button
                             onClick={handleAddToCart}
-                            className="w-full rounded-full bg-green-700 py-2.5 text-sm font-bold text-white transition-colors hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                            className="group/btn relative w-full overflow-hidden rounded-full bg-gradient-to-r from-[#86aa25] to-[#6ab04c] py-3 text-sm font-bold text-white shadow-[0_4px_12px_rgba(106,176,76,0.3)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(106,176,76,0.4)] hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#9bc32d]/40"
                         >
-                            {t('addToCart')}
+                            <span className="relative z-10 flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:rotate-12">
+                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" />
+                                </svg>
+                                {t('addToCart')}
+                            </span>
+                            <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#9bc32d] to-[#86aa25] opacity-0 transition-opacity duration-300 group-hover/btn:opacity-100"></div>
                         </button>
+
                         <a
                             href={link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full text-center text-xs text-gray-400 hover:text-green-700 hover:underline transition-colors cart-link"
+                            className="group/link flex w-full items-center justify-center gap-1.5 rounded-full border border-gray-200 bg-white py-2.5 text-xs font-semibold text-gray-500 transition-all duration-300 hover:border-[#9bc32d] hover:text-[#9bc32d] hover:bg-[#9bc32d]/5"
                         >
                             {t('seeCheck')}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
                         </a>
                     </div>
                 </div>

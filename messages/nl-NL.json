@@ -1,13 +1,41 @@
 {
     "Index": {
         "title": "Olive Discount Hub",
-        "heroTitle": "Best of Olive Young",
-        "heroSubtitle": "Curated K-Beauty for the Global Audience",
-        "addToCart": "Add to Cart",
-        "price": "Price: {price}"
+        "heroTitle": "Het Beste van Olive Young",
+        "heroSubtitle": "K-Beauty samengesteld voor het wereldwijde publiek",
+        "addToCart": "Toevoegen",
+        "price": "Prijs: {price}"
     },
     "LocaleSwitcher": {
-        "label": "Change language",
-        "switchLocale": "Switch to {locale}"
+        "label": "Taal wijzigen",
+        "switchLocale": "Wissel naar {locale}"
+    },
+    "TrustBanner": {
+        "authenticTitle": "100% Authentiek",
+        "authenticDesc": "Rechtstreeks van Olive Young Korea",
+        "shippingTitle": "Direct uit Seoul",
+        "shippingDesc": "Express verzending naar uw deur",
+        "qualityTitle": "Het beste van K-Beauty",
+        "qualityDesc": "Samengestelde selectie van topartikelen"
+    },
+    "ProductCard": {
+        "addToCart": "In Winkelwagen",
+        "seeCheck": "Bekijk bij Oliveyoung",
+        "title": "{title}"
+    },
+    "Cart": {
+        "title": "Winkelwagen",
+        "clearCart": "Winkelwagen legen",
+        "empty": "Uw winkelwagen is leeg",
+        "emptyDesc": "U heeft nog geen artikelen toegevoegd.",
+        "startShopping": "Begin met winkelen",
+        "summary": "Besteloverzicht",
+        "subtotal": "Subtotaal",
+        "shipping": "Verzending",
+        "free": "Gratis",
+        "total": "Totaal",
+        "checkout": "Afrekenen",
+        "secure": "Veilig betalen",
+        "tax": "Inclusief belasting"
     }
 }

@@ -3,8 +3,10 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/navigation";
+import { translateText } from "@/lib/translate";
 import { useCart } from "@/context/CartContext";
 import { useCurrency } from "@/hooks/useCurrency";
+import { getTargetCurrency } from "@/lib/currency";
 import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -23,31 +25,21 @@ export default function CartPage({
         params.then(p => setLocale(p.locale));
     }, [params]);
 
-    const getTargetCurrency = (loc: string) => {
-        if (loc === 'ko') return 'KRW';
-        if (loc === 'en') return 'USD';
-        if (loc.startsWith('es')) return 'EUR';
-        if (loc.startsWith('pt')) return 'EUR';
-        if (loc === 'es-MX') return 'MXN';
-        if (loc === 'pt-BR') return 'BRL';
-        if (loc === 'ru') return 'RUB';
-        return 'USD';
-    };
-
+    // Use centralized currency logic
     const targetCurrency = getTargetCurrency(locale);
     const { formatPrice, loading: ratesLoading } = useCurrency(targetCurrency);
 
-    // Calculate Total
-    // Use originalPrice (KRW) as base if available, otherwise fallback to price (legacy)
-    const { getConvertedPrice } = useCurrency(targetCurrency);
-
-    const totalAmount = cart.reduce((sum, item) => {
-        const itemPrice = item.originalPrice ? getConvertedPrice(item.originalPrice) : item.price;
-        return sum + (itemPrice * item.quantity);
+    // Calculate Total in KRW
+    // Use originalPrice (KRW) as base
+    const totalAmountKRW = cart.reduce((sum, item) => {
+        // If it's a new item with originalPrice (KRW), use it.
+        // If legacy item, try to reverse calc or just assume it's KRW (unlikely but safe fallback to avoid NaN)
+        const itemPriceKRW = item.originalPrice || (item.price * 1300); // Fallback estimate if needed
+        return sum + (itemPriceKRW * item.quantity);
     }, 0);
 
-    const shippingCost = totalAmount > 50000 ? 0 : 3000;
-    const finalTotal = totalAmount;
+    const shippingCostKRW = totalAmountKRW > 50000 ? 0 : 3000;
+    const finalTotalKRW = totalAmountKRW;
 
     if (cart.length === 0) {
         return (
@@ -55,13 +47,13 @@ export default function CartPage({
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                     <ShoppingBagIcon className="w-10 h-10 text-gray-400" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h1>
-                <p className="text-gray-500 mb-8">Looks like you haven't added anything yet.</p>
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('empty')}</h1>
+                <p className="text-gray-500 mb-8">{t('emptyDesc')}</p>
                 <Link
                     href="/"
                     className="px-8 py-3 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition-colors"
                 >
-                    Start Shopping
+                    {t('startShopping')}
                 </Link>
             </div>
         );
@@ -79,7 +71,7 @@ export default function CartPage({
                     }}
                     className="text-sm text-gray-500 hover:text-red-500 underline"
                 >
-                    Clear Cart
+                    {t('clearCart')}
                 </button>
             </div>
 
@@ -101,12 +93,12 @@ export default function CartPage({
 
                             {/* Details */}
                             <div className="flex-1 min-w-0">
-                                <p className="text-xs text-gray-500 font-medium mb-1">{item.brand}</p>
+                                <p className="text-xs text-gray-500 font-medium mb-1">{translateText(item.brand, locale)}</p>
                                 <h3 className="text-base font-semibold text-gray-900 line-clamp-2 mb-2">
-                                    {item.name}
+                                    {translateText(item.name, locale)}
                                 </h3>
                                 <div className="text-lg font-bold text-gray-900">
-                                    {ratesLoading ? '...' : formatPrice(item.originalPrice ? getConvertedPrice(item.originalPrice) : item.price)}
+                                    {ratesLoading ? '...' : (item.originalPrice ? formatPrice(item.originalPrice) : formatPrice(item.price / 0.00075 /* Rough fallback for legacy */))}
                                 </div>
                             </div>
 
@@ -143,27 +135,27 @@ export default function CartPage({
                 {/* Summary Sidebar */}
                 <div className="lg:w-96 flex-shrink-0">
                     <div className="bg-gray-50 rounded-2xl p-8 sticky top-24">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+                        <h2 className="text-xl font-bold text-gray-900 mb-6">{t('summary')}</h2>
 
                         <div className="space-y-4 mb-6">
                             <div className="flex justify-between text-gray-600">
-                                <span>Subtotal</span>
-                                <span>{ratesLoading ? '...' : formatPrice(totalAmount)}</span>
+                                <span>{t('subtotal')}</span>
+                                <span>{ratesLoading ? '...' : formatPrice(totalAmountKRW)}</span>
                             </div>
                             <div className="flex justify-between text-gray-600">
-                                <span>Shipping</span>
-                                <span className="text-green-600 font-medium">Free</span>
+                                <span>{t('shipping')}</span>
+                                <span className="text-green-600 font-medium">{t('free')}</span>
                             </div>
                         </div>
 
                         <div className="border-t border-gray-200 pt-4 mb-8">
                             <div className="flex justify-between items-end">
-                                <span className="text-lg font-bold text-gray-900">Total</span>
+                                <span className="text-lg font-bold text-gray-900">{t('total')}</span>
                                 <div className="text-right">
                                     <span className="text-2xl font-bold text-gray-900 block">
-                                        {ratesLoading ? '...' : formatPrice(finalTotal)}
+                                        {ratesLoading ? '...' : formatPrice(finalTotalKRW)}
                                     </span>
-                                    <span className="text-xs text-gray-500">Including tax</span>
+                                    <span className="text-xs text-gray-500">{t('tax')}</span>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +164,7 @@ export default function CartPage({
                             className="w-full py-4 bg-green-600 text-white rounded-xl font-bold text-lg hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20 flex items-center justify-center gap-2"
                             onClick={() => alert('Checkout is disabled for this demo.')}
                         >
-                            Proceed to Checkout
+                            {t('checkout')}
                             <ArrowRight size={20} />
                         </button>
 
@@ -180,7 +172,7 @@ export default function CartPage({
                             <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
-                            Secure Checkout
+                            {t('secure')}
                         </div>
                     </div>
                 </div>

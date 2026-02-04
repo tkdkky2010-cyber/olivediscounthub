@@ -1,4 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
+// Force rebuild for new locales TR MX BR Fix Terms
 import { locales } from '../config';
 
 export default getRequestConfig(async ({ requestLocale }) => {

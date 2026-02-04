@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import ProductCard from '@/components/ProductCard';
+import ProductBrowser from '@/components/ProductBrowser';
 import TrustBanner from '@/components/TrustBanner';
 import { getBestProducts } from '@/lib/oliveyoung';
 
@@ -22,7 +22,7 @@ export default async function HomePage({ params }: Props) {
           <h1 className="mb-6 text-4xl font-bold text-green-800">{t('heroTitle')}</h1>
           <p className="text-xl text-gray-500 font-light">{t('heroSubtitle')}</p>
           <p className="mt-4 text-sm text-gray-400">
-            {locale === 'ko' ? '실시간 올리브영 랭킹 (5분 갱신)' : 'Real-time Olive Young Best Sellers (Live from Korea)'}
+            {locale === 'ko' ? '실시간 올리브영 랭킹' : 'Real-time Olive Young Best Sellers (Live from Korea)'}
           </p>
         </div>
       </section>
@@ -30,30 +30,8 @@ export default async function HomePage({ params }: Props) {
       {/* Trust Banner */}
       <TrustBanner />
 
-      {/* Product Grid */}
-      <div className="container mx-auto px-4">
-        {products.length > 0 ? (
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                brand={product.brand}
-                title={product.name}
-                imageUrl={product.imageUrl}
-                originalPrice={product.originalPrice}
-                currentPrice={product.currentPrice}
-                link={product.link}
-                locale={locale}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20 bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Failed to load Best Products. Please try again later.</p>
-          </div>
-        )}
-      </div>
+      {/* Product Browser (Client Component) */}
+      <ProductBrowser initialProducts={products} locale={locale} />
     </div>
   );
 }

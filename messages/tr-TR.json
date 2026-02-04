@@ -2,19 +2,19 @@
     "Index": {
         "title": "Olive Discount Hub",
         "heroTitle": "Olive Young'ın En İyileri",
-        "heroSubtitle": "Küresel Kitle için Özenle Seçilmiş K-Beauty",
+        "heroSubtitle": "Global Kitle için Özenle Seçilmiş K-Beauty",
         "addToCart": "Sepete Ekle",
         "price": "Fiyat: {price}"
     },
     "LocaleSwitcher": {
-        "label": "Dili değiştir",
+        "label": "Dili Değiştir",
         "switchLocale": "{locale} diline geç"
     },
     "TrustBanner": {
         "authenticTitle": "%100 Orijinal",
-        "authenticDesc": "Doğrudan Olive Young Kore'den temin edilmiştir",
+        "authenticDesc": "Doğrudan Olive Young Kore'den",
         "shippingTitle": "Seul'den Direkt",
-        "shippingDesc": "Kapınıza ekspres kargo",
+        "shippingDesc": "Kapınıza ekspres kargo süresi",
         "qualityTitle": "K-Beauty'nin En İyisi",
         "qualityDesc": "En iyi ürünlerden seçilmiş koleksiyon"
     },
@@ -27,6 +27,7 @@
         "title": "Alışveriş Sepeti",
         "clearCart": "Sepeti Temizle",
         "empty": "Sepetiniz boş",
+        "emptyDesc": "Henüz herhangi bir ürün eklemediniz.",
         "startShopping": "Alışverişe Başla",
         "summary": "Sipariş Özeti",
         "subtotal": "Ara Toplam",
