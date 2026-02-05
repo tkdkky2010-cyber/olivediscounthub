@@ -1,0 +1,503 @@
+Fetching Olive Young Best (Top 100)...
+Fetching page 1...
+Scraping failed: AxiosError: Request failed with status code 403
+    at settle (file:///Users/apple/olivediscounthub/node_modules/axios/lib/core/settle.js:19:12)
+    at Unzip.handleStreamEnd (file:///Users/apple/olivediscounthub/node_modules/axios/lib/adapters/http.js:798:11)
+    at Unzip.emit (node:events:508:28)
+    at endReadableNT (node:internal/streams/readable:1701:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+    at Axios.request (file:///Users/apple/olivediscounthub/node_modules/axios/lib/core/Axios.js:45:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async scrape (file:///Users/apple/olivediscounthub/scripts/scrape.mjs:60:30) {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: {
+    transitional: {
+      silentJSONParsing: true,
+      forcedJSONParsing: true,
+      clarifyTimeoutError: false
+    },
+    adapter: [ 'xhr', 'http', 'fetch' ],
+    transformRequest: [ [Function: transformRequest] ],
+    transformResponse: [ [Function: transformResponse] ],
+    timeout: 0,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+    maxContentLength: -1,
+    maxBodyLength: -1,
+    env: { FormData: [Function], Blob: [class Blob] },
+    validateStatus: [Function: validateStatus],
+    headers: Object [AxiosHeaders] {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': undefined,
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      Referer: 'https://www.oliveyoung.co.kr/',
+      'Accept-Encoding': 'gzip, compress, deflate, br'
+    },
+    method: 'get',
+    url: 'https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20',
+    allowAbsoluteUrls: true,
+    data: undefined
+  },
+  request: <ref *1> ClientRequest {
+    _events: [Object: null prototype] {
+      abort: [Function (anonymous)],
+      aborted: [Function (anonymous)],
+      connect: [Function (anonymous)],
+      error: [Function (anonymous)],
+      socket: [Function (anonymous)],
+      timeout: [Function (anonymous)],
+      finish: [Function: requestOnFinish]
+    },
+    _eventsCount: 7,
+    _maxListeners: undefined,
+    outputData: [],
+    outputSize: 0,
+    writable: true,
+    destroyed: true,
+    _last: true,
+    chunkedEncoding: false,
+    shouldKeepAlive: false,
+    maxRequestsOnConnectionReached: false,
+    _defaultKeepAlive: true,
+    useChunkedEncodingByDefault: false,
+    sendDate: false,
+    _removedConnection: false,
+    _removedContLen: false,
+    _removedTE: false,
+    strictContentLength: false,
+    _contentLength: 0,
+    _hasBody: true,
+    _trailer: '',
+    finished: true,
+    _headerSent: true,
+    _closed: true,
+    _header: 'GET /store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20 HTTP/1.1\r\n' +
+      'Accept: application/json, text/plain, */*\r\n' +
+      'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\r\n' +
+      'Referer: https://www.oliveyoung.co.kr/\r\n' +
+      'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+      'Host: www.oliveyoung.co.kr\r\n' +
+      'Connection: keep-alive\r\n' +
+      '\r\n',
+    _keepAliveTimeout: 0,
+    _onPendingData: [Function: nop],
+    agent: Agent {
+      _events: [Object: null prototype],
+      _eventsCount: 2,
+      _maxListeners: undefined,
+      options: [Object: null prototype],
+      defaultPort: 443,
+      protocol: 'https:',
+      requests: [Object: null prototype] {},
+      sockets: [Object: null prototype] {},
+      freeSockets: [Object: null prototype] {},
+      keepAliveMsecs: 1000,
+      keepAlive: true,
+      maxSockets: Infinity,
+      maxFreeSockets: 256,
+      scheduling: 'lifo',
+      maxTotalSockets: Infinity,
+      totalSocketCount: 0,
+      agentKeepAliveTimeoutBuffer: 1000,
+      maxCachedSessions: 100,
+      _sessionCache: [Object],
+      Symbol(shapeMode): false,
+      Symbol(kCapture): false
+    },
+    socketPath: undefined,
+    method: 'GET',
+    maxHeaderSize: undefined,
+    insecureHTTPParser: undefined,
+    joinDuplicateHeaders: undefined,
+    path: '/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20',
+    _ended: true,
+    res: IncomingMessage {
+      _events: [Object],
+      _readableState: [ReadableState],
+      _maxListeners: undefined,
+      socket: [TLSSocket],
+      httpVersionMajor: 1,
+      httpVersionMinor: 1,
+      httpVersion: '1.1',
+      complete: true,
+      rawHeaders: [Array],
+      rawTrailers: [],
+      joinDuplicateHeaders: undefined,
+      aborted: false,
+      upgrade: false,
+      url: '',
+      method: null,
+      statusCode: 403,
+      statusMessage: 'Forbidden',
+      client: [TLSSocket],
+      _consuming: true,
+      _dumped: false,
+      req: [Circular *1],
+      _eventsCount: 4,
+      responseUrl: 'https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20',
+      redirects: [],
+      Symbol(shapeMode): true,
+      Symbol(kCapture): false,
+      Symbol(kHeaders): [Object],
+      Symbol(kHeadersCount): 46,
+      Symbol(kTrailers): null,
+      Symbol(kTrailersCount): 0
+    },
+    aborted: false,
+    timeoutCb: [Function: emitRequestTimeout],
+    upgradeOrConnect: false,
+    parser: null,
+    maxHeadersCount: null,
+    reusedSocket: false,
+    host: 'www.oliveyoung.co.kr',
+    protocol: 'https:',
+    _redirectable: Writable {
+      _events: [Object],
+      _writableState: [WritableState],
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _eventsCount: 3,
+      _onNativeResponse: [Function (anonymous)],
+      _currentRequest: [Circular *1],
+      _currentUrl: 'https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20',
+      _timeout: null,
+      Symbol(shapeMode): true,
+      Symbol(kCapture): false
+    },
+    Symbol(shapeMode): false,
+    Symbol(kCapture): false,
+    Symbol(kBytesWritten): 0,
+    Symbol(kNeedDrain): false,
+    Symbol(corked): 0,
+    Symbol(kChunkedBuffer): [],
+    Symbol(kChunkedLength): 0,
+    Symbol(kSocket): TLSSocket {
+      _tlsOptions: [Object],
+      _secureEstablished: true,
+      _securePending: false,
+      _newSessionPending: false,
+      _controlReleased: true,
+      secureConnecting: false,
+      _SNICallback: null,
+      servername: 'www.oliveyoung.co.kr',
+      alpnProtocol: false,
+      authorized: true,
+      authorizationError: null,
+      encrypted: true,
+      _events: [Object: null prototype],
+      _eventsCount: 9,
+      connecting: false,
+      _hadError: false,
+      _parent: null,
+      _host: 'www.oliveyoung.co.kr',
+      _closeAfterHandlingError: false,
+      _readableState: [ReadableState],
+      _writableState: [WritableState],
+      allowHalfOpen: false,
+      _maxListeners: undefined,
+      _sockname: null,
+      _pendingData: null,
+      _pendingEncoding: '',
+      server: undefined,
+      _server: null,
+      ssl: null,
+      _requestCert: true,
+      _rejectUnauthorized: true,
+      timeout: 0,
+      parser: null,
+      _httpMessage: [Circular *1],
+      autoSelectFamilyAttemptedAddresses: [Array],
+      write: [Function: writeAfterFIN],
+      Symbol(alpncallback): null,
+      Symbol(res): null,
+      Symbol(verified): true,
+      Symbol(pendingSession): null,
+      Symbol(async_id_symbol): 5,
+      Symbol(kHandle): null,
+      Symbol(lastWriteQueueSize): 0,
+      Symbol(timeout): Timeout {
+        _idleTimeout: -1,
+        _idlePrev: null,
+        _idleNext: null,
+        _idleStart: 272,
+        _onTimeout: null,
+        _timerArgs: undefined,
+        _repeat: null,
+        _destroyed: true,
+        Symbol(refed): false,
+        Symbol(kHasPrimitive): false,
+        Symbol(asyncId): 7,
+        Symbol(triggerId): 0,
+        Symbol(kAsyncContextFrame): undefined
+      },
+      Symbol(kBuffer): null,
+      Symbol(kBufferCb): null,
+      Symbol(kBufferGen): null,
+      Symbol(shapeMode): true,
+      Symbol(kCapture): false,
+      Symbol(kSetNoDelay): false,
+      Symbol(kSetKeepAlive): true,
+      Symbol(kSetKeepAliveInitialDelay): 60,
+      Symbol(kBytesRead): 35519,
+      Symbol(kBytesWritten): 420,
+      Symbol(connect-options): [Object]
+    },
+    Symbol(kOutHeaders): [Object: null prototype] {
+      accept: [Array],
+      'user-agent': [Array],
+      referer: [Array],
+      'accept-encoding': [Array],
+      host: [Array]
+    },
+    Symbol(errored): null,
+    Symbol(kHighWaterMark): 65536,
+    Symbol(kRejectNonStandardBodyWrites): false,
+    Symbol(kUniqueHeaders): null
+  },
+  response: {
+    status: 403,
+    statusText: 'Forbidden',
+    headers: Object [AxiosHeaders] {
+      date: 'Thu, 05 Feb 2026 05:11:57 GMT',
+      'content-type': 'text/html; charset=UTF-8',
+      'transfer-encoding': 'chunked',
+      connection: 'close',
+      'accept-ch': 'Sec-CH-UA-Bitness, Sec-CH-UA-Arch, Sec-CH-UA-Full-Version, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform, Sec-CH-UA, UA-Bitness, UA-Arch, UA-Full-Version, UA-Mobile, UA-Model, UA-Platform-Version, UA-Platform, UA',
+      'cf-mitigated': 'challenge',
+      'critical-ch': 'Sec-CH-UA-Bitness, Sec-CH-UA-Arch, Sec-CH-UA-Full-Version, Sec-CH-UA-Mobile, Sec-CH-UA-Model, Sec-CH-UA-Platform-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform, Sec-CH-UA, UA-Bitness, UA-Arch, UA-Full-Version, UA-Mobile, UA-Model, UA-Platform-Version, UA-Platform, UA',
+      'cross-origin-embedder-policy': 'require-corp',
+      'cross-origin-opener-policy': 'same-origin',
+      'cross-origin-resource-policy': 'same-origin',
+      'origin-agent-cluster': '?1',
+      'permissions-policy': 'accelerometer=(),browsing-topics=(),camera=(),clipboard-read=(),clipboard-write=(),geolocation=(),gyroscope=(),hid=(),interest-cohort=(),magnetometer=(),microphone=(),payment=(),publickey-credentials-get=(),screen-wake-lock=(),serial=(),sync-xhr=(),usb=()',
+      'referrer-policy': 'same-origin',
+      'server-timing': 'chlray;desc="9c8fe8f58bca0bf6"',
+      'x-content-type-options': 'nosniff',
+      'x-frame-options': 'SAMEORIGIN',
+      'cache-control': 'private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0',
+      expires: 'Thu, 01 Jan 1970 00:00:01 GMT',
+      'set-cookie': [Array],
+      vary: 'Accept-Encoding',
+      server: 'cloudflare',
+      'cf-ray': '9c8fe8f58bca0bf6-ICN'
+    },
+    config: {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 0,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20',
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: <ref *1> ClientRequest {
+      _events: [Object: null prototype],
+      _eventsCount: 7,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      destroyed: true,
+      _last: true,
+      chunkedEncoding: false,
+      shouldKeepAlive: false,
+      maxRequestsOnConnectionReached: false,
+      _defaultKeepAlive: true,
+      useChunkedEncodingByDefault: false,
+      sendDate: false,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      strictContentLength: false,
+      _contentLength: 0,
+      _hasBody: true,
+      _trailer: '',
+      finished: true,
+      _headerSent: true,
+      _closed: true,
+      _header: 'GET /store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20 HTTP/1.1\r\n' +
+        'Accept: application/json, text/plain, */*\r\n' +
+        'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\r\n' +
+        'Referer: https://www.oliveyoung.co.kr/\r\n' +
+        'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+        'Host: www.oliveyoung.co.kr\r\n' +
+        'Connection: keep-alive\r\n' +
+        '\r\n',
+      _keepAliveTimeout: 0,
+      _onPendingData: [Function: nop],
+      agent: [Agent],
+      socketPath: undefined,
+      method: 'GET',
+      maxHeaderSize: undefined,
+      insecureHTTPParser: undefined,
+      joinDuplicateHeaders: undefined,
+      path: '/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=1&rowsPerPage=20',
+      _ended: true,
+      res: [IncomingMessage],
+      aborted: false,
+      timeoutCb: [Function: emitRequestTimeout],
+      upgradeOrConnect: false,
+      parser: null,
+      maxHeadersCount: null,
+      reusedSocket: false,
+      host: 'www.oliveyoung.co.kr',
+      protocol: 'https:',
+      _redirectable: [Writable],
+      Symbol(shapeMode): false,
+      Symbol(kCapture): false,
+      Symbol(kBytesWritten): 0,
+      Symbol(kNeedDrain): false,
+      Symbol(corked): 0,
+      Symbol(kChunkedBuffer): [],
+      Symbol(kChunkedLength): 0,
+      Symbol(kSocket): [TLSSocket],
+      Symbol(kOutHeaders): [Object: null prototype],
+      Symbol(errored): null,
+      Symbol(kHighWaterMark): 65536,
+      Symbol(kRejectNonStandardBodyWrites): false,
+      Symbol(kUniqueHeaders): null
+    },
+    data: '<!DOCTYPE html>\n' +
+      '<html lang="ko">\n' +
+      '  <head>\n' +
+      '    <meta charset="UTF-8" />\n' +
+      '    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />\n' +
+      '    <meta http-equiv="Pragma" content="no-cache" />\n' +
+      '    <meta http-equiv="Cache-Control" content="no-cache" />\n' +
+      '    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\n' +
+      '    <meta name="format-detection" content="telephone=no" />\n' +
+      '    <meta\n' +
+      '      name="viewport"\n' +
+      '      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"\n' +
+      '    />\n' +
+      '    <title>잠시만 기다려 주세요 - 올리브영</title>\n' +
+      '    <style>\n' +
+      '      * {\n' +
+      '        margin: 0;\n' +
+      '        padding: 0;\n' +
+      '        box-sizing: border-box;\n' +
+      '      }\n' +
+      '\n' +
+      '      html,\n' +
+      '      body {\n' +
+      '        height: 100%;\n' +
+      '        overflow-x: hidden;\n' +
+      '      }\n' +
+      '\n' +
+      '      body {\n' +
+      '        font-family: "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont,\n' +
+      '          "Segoe UI", sans-serif;\n' +
+      '        background: #ffffff;\n' +
+      '        width: 100%;\n' +
+      '        margin: 0 auto;\n' +
+      '        position: relative;\n' +
+      '        display: flex;\n' +
+      '        flex-direction: column;\n' +
+      '        min-height: 100dvh;\n' +
+      '      }\n' +
+      '\n' +
+      '      /* Main Container */\n' +
+      '      .container {\n' +
+      '        display: flex;\n' +
+      '        flex-direction: column;\n' +
+      '        width: 100%;\n' +
+      '        min-height: 100dvh;\n' +
+      '        background: #ffffff;\n' +
+      '      }\n' +
+      '\n' +
+      '      /* Main Content - 안내 영역 */\n' +
+      '      .main-section {\n' +
+      '        flex: 1;\n' +
+      '        width: 100%;\n' +
+      '        background: #ffffff;\n' +
+      '        display: flex;\n' +
+      '        flex-direction: column;\n' +
+      '        align-items: center;\n' +
+      '        justify-content: center;\n' +
+      '        min-height: 428px; /* 기존398px */\n' +
+      '        padding: 80px 20px 50px 20px; /* 작은사이즈 폰 대응 상단 여백 조정 */\n' +
+      '      }\n' +
+      '\n' +
+      '      .content-wrapper {\n' +
+      '        width: 100%;\n' +
+      '        max-width: 300px;\n' +
+      '        display: flex;\n' +
+      '        flex-direction: column;\n' +
+      '        align-items: center;\n' +
+      '        justify-content: center;\n' +
+      '        gap: 40px;\n' +
+      '      }\n' +
+      '\n' +
+      '      /* Text Section - 항상 중앙 정렬 */\n' +
+      '      .text-section {\n' +
+      '        display: flex;\n' +
+      '        flex-direction: column;\n' +
+      '        align-items: center;\n' +
+      '        gap: 10px;\n' +
+      '        width: 100%;\n' +
+      '        max-width: 217px;\n' +
+      '      }\n' +
+      '\n' +
+      '      .title-section {\n' +
+      '        display: flex;\n' +
+      '        flex-direction: column;\n' +
+      '        align-items: center;\n' +
+      '        gap: 10px;\n' +
+      '      }\n' +
+      '\n' +
+      '      /* 로고 - 항상 중앙 정렬 */\n' +
+      '      .logo {\n' +
+      '        width: 185px;\n' +
+      '        height: 22px;\n' +
+      '        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTg1IiBoZWlnaHQ9IjIzIiB2aWV3Qm94PSIwIDAgMTg1IDIzIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMjUuMTM1MyAxNy44OTIyTDI3LjQ4NTMgMS40NjI4OUgyMi45MTk3TDIwLjA2NzkgMjEuNTM3MUgzMi4xMDg0TDMyLjYxMDIgMTcuODkyMkgyNS4xMzUzWiIgZmlsbD0iIzEzMTUxOCIvPgo8cGF0aCBkPSJNMzguNjM3OSAxLjQ2Mjg5TDM1Ljc0NTYgMjEuNTM3MUg0MC4zNzZMNDMuMjcxIDEuNDYyODlIMzguNjM3OVoiIGZpbGw9IiMxMzE1MTgiLz4KPHBhdGggZD0iTTU5LjY4NzYgMS40NjI4OUw1My4zOTIxIDE1LjY3MzRMNTEuMzE0NiAxLjQ2Mjg5SDQ3LjAzMzdMNTAuNjM1MiAyMS41MzcxSDU0LjU2OTlMNjMuOTY1OSAxLjQ2Mjg5SDU5LjY4NzZaIiBmaWxsPSIjMTMxNTE4Ii8+CjxwYXRoIGQ9Ik0xNS44NjQ5IDMuMjc3MDVDMTQuNjM3OCAxLjgzODkzIDEyLjY2MTYgMC44NjQzNTkgMTAuMjM2NCAwLjgzNjQzNEM0LjI0NDA0IDAuNzY5NDE1IDEuMDkxMTIgNC42MDkwNiAwLjE2OTQyIDExLjM4NjRWMTEuNDE0M0MtMC4zMjQ2MzUgMTUuMDQ0NSAwLjI3ODMyNCAxNy45MDQgMS43NjMxNCAxOS43MTYzQzIuOTcxNzIgMjEuMTg1MSA0Ljg3MDkxIDIyLjAyNTcgNy4yNjY4IDIyLjE0ODVDMTMuMjQzMyAyMi40NTI5IDE2LjY4ODQgMTguMzUzNiAxNy40MTYyIDExLjQ2MThDMTcuODIyNiA3LjYzODg4IDE3LjM4MTYgNS4wNjQyMyAxNS44NjIzIDMuMjc3MDVNMTIuODM0MiAxMS41MTc2QzEyLjE1MTYgMTYuNTQ0MSAxMC42NTM1IDE4LjU5NjUgNy44MjQ2MSAxOC41OTY1QzcuMzYzODQgMTguNjA5OSA2LjkwNjA5IDE4LjUxNDQgNi40ODUwMyAxOC4zMTczQzYuMDYzOTcgMTguMTIwMSA1LjY5MDMxIDE3LjgyNjIgNS4zOTE1MiAxNy40NTcyQzQuNDkzNzMgMTYuMzcwOSA0LjI2NTI5IDE0LjYzNjggNC42OTU1OSAxMS40NzAxVjExLjQzOTRDNS4zNjQ5NSA2LjYyODAxIDYuODMzODQgNC4zNDkzNSA5LjY2MjcgNC4zNDkzNUMxMC43NTQ0IDQuMzQ5MzUgMTEuNTk2NCA0LjY4NzI1IDEyLjE0ODkgNS4zNTc0NEMxMy4wNDY3IDYuNDQ2NSAxMy4yNjQ1IDguMzMxNDIgMTIuODMxNiAxMS41MTc2IiBmaWxsPSIjMTMxNTE4Ii8+CjxwYXRoIGQ9Ik02OC4yMzk2IDEuNDYyODlMNjUuMjIwMiAyMS41MzcxSDc4LjMyMDZMNzguODI2MiAxOC4xNzg1SDcwLjU2NDRMNzEuNDUwNyAxMi42ODFINzguODc4NUw3OS4zMjg5IDkuMjg2NjRINzEuOTA0MUw3Mi41NzU0IDQuODI0MTlIODAuMzkyNUw4MC44OTgyIDEuNDYyODlINjguMjM5NloiIGZpbGw9IiMxMzE1MTgiLz4KPHBhdGggZD0iTTk4Ljg2MTcgMTQuMTkyN0wxMDYuNjEgMS40NjI4OUgxMDEuOTcxTDk3LjIyNzkgOS41OTk2N0w5NC42NzE0IDEuNDYyODlIOTAuMzA1Mkw5NC42MTc5IDEzLjUzNDJMOTMuNTU1IDIxLjUzNzFIOTcuODMyTDk4LjgzMTEgMTQuMjM5MUw5OC44NjE3IDE0LjE5MjdaIiBmaWxsPSIjMTMxNTE4Ii8+CjxwYXRoIGQ9Ik0xMjMuNTk2IDMuMjc2NzVDMTIyLjI4NCAxLjgzNzM2IDEyMC4xNjcgMC44NjM5ODggMTE3LjU3MiAwLjgzNjQxM0MxMTEuMTU0IDAuNzcwMjM1IDEwNy43NzggNC42MDg1OSAxMDYuNzkyIDExLjM4NjRWMTEuNDEzOUMxMDYuMjYxIDE1LjA1MzggMTA2LjkwNyAxNy45MDIyIDEwOC41MDUgMTkuNzEzOEMxMDkuNzk3IDIxLjE4MzYgMTExLjgzMSAyMi4wMjczIDExNC40MDMgMjIuMTQ4N0MxMjAuNzk5IDIyLjQ1MiAxMjQuNDg5IDE4LjM1MTcgMTI1LjI3IDExLjQ2MDhDMTI1LjcwNSA3LjYzNjI1IDEyNS4yMzQgNS4wNjM1NyAxMjMuNjA1IDMuMjc2NzVNMTIwLjM0NyAxMS41MzI1QzExOS42MTYgMTYuNTY0OCAxMTguMDEgMTguNjA4MSAxMTQuOTgyIDE4LjYwODFDMTE0LjQ4OSAxOC42MjEyIDExMy45OTggMTguNTI1NyAxMTMuNTQ3IDE4LjMyODdDMTEzLjA5NiAxOC4xMzE2IDExMi42OTYgMTcuODM4IDExMi4zNzYgMTcuNDY5M0MxMTEuNDE1IDE2LjM4MjggMTExLjE3MSAxNC42NTEyIDExMS42MzEgMTEuNDgyOVYxMS40NTI1QzExMi4zNDggNi42NDA4MiAxMTMuOTIgNC4zNjMxOCAxMTYuOTUxIDQuMzYzMThDMTE4LjExOSA0LjM2MzE4IDExOS4wMjEgNC43MDIzNCAxMTkuNjEzIDUuMzY5NjRDMTIwLjU3NCA2LjQ3MjYyIDEyMC44MDcgOC4zNDQ5MiAxMjAuMzQ0IDExLjUzMjUiIGZpbGw9IiMxMzE1MTgiLz4KPHBhdGggZD0iTTE2MS41OTggMS40NjI4OUwxNTkuODIgMTUuMTY1NEwxNTUuMTI0IDEuNDYyODlIMTUwLjY3OUwxNDggMjEuNTM3MUgxNTEuOTY2TDE1My45MzIgNy40MDI5TDE1OC42OTYgMjEuNTM3MUgxNjIuODhMMTY1LjU1OSAxLjQ2Mjg5SDE2MS41OThaIiBmaWxsPSIjMTMxNTE4Ii8+CjxwYXRoIGQ9Ik0xODQuMzkzIDE0Ljg1MTlDMTgzLjc5IDE4LjkzNDggMTgwLjY1NyAyMi41MTAxIDE3NC44NTUgMjIuMTM3N0MxNzIuMDczIDIxLjk1ODMgMTcwLjI3MyAyMC44ODUyIDE2OC45OTYgMTkuMTYxQzE2Ny43NTYgMTcuNDgzNyAxNjcuMDQ5IDE0LjcwNTcgMTY3LjY2OSAxMC45OTI0QzE2OC45MzUgMy4zNzgzOCAxNzIuNzcxIDAuNjE5NjU2IDE3OC4wOTUgMC44NDg2MjlDMTgxLjc2NSAxLjAwODYzIDE4My44NyAyLjcyNzMyIDE4NSA1Ljk2NjA2TDE4MS4wMTkgNy4yNzkyMUMxODAuNzQxIDYuMjUyOTcgMTc5LjgzNCA0LjQzNzczIDE3Ny42MzQgNC4yNTg0MUMxNzQuNjI5IDQuMDEyODggMTcyLjc3OSA2LjU3ODQ5IDE3Mi4wNyAxMS40MzExQzE3MS42NjEgMTQuMjgzNiAxNzEuNDI3IDE4LjA1MiAxNzUuMTA1IDE4LjQ2ODZDMTc3LjYzMSAxOC43NTgyIDE3OS41NTYgMTcuNjU0NyAxODAuNDEgMTQuNDk2QzE4MC40ODkgMTQuMjI1NyAxODAuNTQyIDEzLjk0ODYgMTgwLjU2OCAxMy42Njg0SDE3Ni4xNDNMMTc2LjY0MyAxMC4yMkgxODQuODg2QzE4NC45MTQgMTAuMzM4NiAxODQuNjU1IDEzLjA4MzYgMTg0LjM5MyAxNC44MzUzIiBmaWxsPSIjMTMxNTE4Ii8+CjxwYXRoIGQ9Ik0xNDEuNDA5IDEuNDYyODlMMTM5LjYxMiAxMy44NjUxQzEzOS4xNDUgMTYuNDAzMSAxMzkuMTIzIDE3LjExMyAxMzcuOTU2IDE4LjA1ODZDMTM2Ljg0OCAxOC45NTQ4IDEzNC40NTIgMTguODgwOCAxMzMuMjcxIDE3LjcxMDVDMTMyLjM0MSAxNi43ODY4IDEzMi43MDkgMTQuODgxOSAxMzIuOTU0IDEyLjkyNUwxMzQuNDUyIDEuNDYyODlIMTI5LjczNEwxMjguMDI3IDE0LjM2MTJDMTI3LjU3MiAxNy43NDM0IDEyOC43NzggMTkuNTY4OCAxMzEuMDY3IDIxLjAwMjJDMTMyLjg4OSAyMi4xMzY5IDEzNS40MDggMjIuMjk4NiAxMzcuMDM5IDIyLjA4MjFDMTM5LjkzMyAyMS42OTU2IDE0MS44MzkgMjAuNTg1NiAxNDIuOTQ0IDE4LjcwNTRDMTQzLjYzMyAxNy41NDYgMTQzLjk1MyAxNi4zNzU3IDE0NC4yNiAxNC4zNDc1TDE0Ni4xMTkgMS40NjU2M0wxNDEuNDA5IDEuNDYyODlaIiBmaWxsPSIjMTMxNTE4Ii8+Cjwvc3ZnPgo=");\n' +
+      '        background-repeat: no-repeat;\n' +
+      '        background-position: center;\n' +
+      '        background-size: contain;\n' +
+      '      }\n' +
+      '\n' +
+      '      /* 텍스트 - 항상 중앙 정렬 */\n' +
+      '      .main-title {\n' +
+      '        font-family: "Apple SD Gothic Neo", sans-serif;\n' +
+      '        font-weight: 700;\n' +
+      '        font-size: 26px;\n' +
+      '        color: #131518;\n' +
+      '        text-align: center;\n' +
+      '        line-height: normal;\n' +
+      '      }\n' +
+      '\n' +
+      '      .subtitle {\n' +
+      '        font-family: "Apple SD Gothic Neo", sans-serif;\n' +
+      '        font-weight: 400;\n' +
+      '        font-size: 14px;\n' +
+      '        color: #50585f;\n' +
+      '        text-align: center;\n' +
+      '        line-height: normal;\n' +
+      '        white-space: normal; /* 모바일: 2줄 허용 */\n' +
+      '      }\n' +
+      '\n' +
+      '      /* 그래픽 - 항상 중앙 정렬 */\n' +
+      '      .support-image {\n' +
+      '        width: 276px;\n' +
+      '        height: 146px;\n' +
+      '        background: #ffffff;\n' +
+      '        border-radius: 0;\n' +
+      '        background-image: url("data:image/png;base64,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'... 42882 more characters
+  },
+  status: 403
+}

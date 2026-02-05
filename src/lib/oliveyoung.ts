@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 
 export interface Product {
-    id: number;
+    id: string; // Changed to string to support 'A000...' format
     rank: number;
     category: string;
     brand: string;
@@ -15,7 +15,7 @@ export interface Product {
 // Fallback data
 export const FALLBACK_PRODUCTS: Product[] = [
     {
-        id: 1,
+        id: '1',
         rank: 1,
         category: 'all',
         brand: 'Torriden',
@@ -26,7 +26,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
         link: 'https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000158752'
     },
     {
-        id: 2,
+        id: '2',
         rank: 2,
         category: 'mask',
         brand: 'Mediheal',
@@ -37,7 +37,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
         link: 'https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000223414'
     },
     {
-        id: 3,
+        id: '3',
         rank: 3,
         category: 'food',
         brand: 'Crunky',
@@ -48,7 +48,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
         link: 'https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000227418'
     },
     {
-        id: 4,
+        id: '4',
         rank: 4,
         category: 'skincare',
         brand: 'Menokin',
@@ -59,7 +59,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
         link: 'https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000234422'
     },
     {
-        id: 5,
+        id: '5',
         rank: 5,
         category: 'skincare',
         brand: 'Torriden',
@@ -78,16 +78,16 @@ export async function getBestProducts(): Promise<Product[]> {
         console.log('[Scraper] Using cached/scraped data for REAL images...');
         // Cast imported JSON to Product[]
         const validProducts = (scrapedData as any[]).map(item => ({
-            id: Number(item.id), // Ensure number
+            id: String(item.id),
             rank: Number(item.rank),
-            category: String(item.category || 'all'), // New field
+            category: String(item.category || 'all'),
             brand: String(item.brand),
             name: String(item.name),
-            originalPrice: item.originalPrice ? Number(String(item.originalPrice).replace(/,/g, '')) : null,
-            currentPrice: Number(String(item.currentPrice).replace(/,/g, '')),
+            originalPrice: item.originalPrice ? Number(item.originalPrice) : null,
+            currentPrice: Number(item.currentPrice),
             imageUrl: String(item.imageUrl),
             link: String(item.link)
-        }));
+        })).sort((a, b) => a.rank - b.rank);
 
         return validProducts as Product[];
 

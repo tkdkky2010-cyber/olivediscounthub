@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export interface CartItem {
-    id: number;
+    id: string; // Updated to string to match Product ID
     name: string;
     brand: string;
     imageUrl: string;
@@ -17,8 +17,8 @@ export interface CartItem {
 interface CartContextType {
     cart: CartItem[];
     addToCart: (item: CartItem) => void;
-    removeFromCart: (id: number) => void;
-    updateQuantity: (id: number, quantity: number) => void;
+    removeFromCart: (id: string) => void;
+    updateQuantity: (id: string, quantity: number) => void;
     clearCart: () => void;
     cartCount: number;
 }
@@ -73,14 +73,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         // and Components can listen to context changes or callback.
     };
 
-    const updateQuantity = (id: number, quantity: number) => {
+    const updateQuantity = (id: string, quantity: number) => {
         if (quantity < 1) return;
         setCart(prev => prev.map(item =>
             item.id === id ? { ...item, quantity } : item
         ));
     };
 
-    const removeFromCart = (id: number) => {
+    const removeFromCart = (id: string) => {
         setCart(prev => prev.filter(item => item.id !== id));
     };
 

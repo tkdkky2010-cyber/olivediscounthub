@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Olive Discount Hub Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7ec341",
+                        "accent-red": "#ff4d4f",
+                        "background-light": "#ffffff",
+                        "background-dark": "#121410",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-[#141612] dark:text-white">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 flex items-center bg-white/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 justify-between border-b border-[#f2f4f1] dark:border-white/10">
+<div class="flex items-center gap-2">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl font-bold">spa</span>
+</div>
+<h1 class="text-[#141612] dark:text-white text-lg font-bold leading-tight tracking-tight">Olive Hub</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-1 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-2xl">search</span>
+</button>
+<div class="relative p-1">
+<button class="hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-2xl">shopping_bag</span>
+</button>
+<span class="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-accent-red text-[10px] font-bold text-white">3</span>
+</div>
+</div>
+</header>
+<!-- Hero Carousel Section -->
+<section class="w-full px-4 pt-4">
+<div class="relative w-full aspect-[21/9] overflow-hidden rounded-xl bg-primary/10">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Korean skincare products on a soft green background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDNsizplfT-pNPaHFFgIGdjaQw4_Dfn4VQ6bpBPGA4KU17KHrscYwIq-KtBgt0mne-_wJO35TAPIC2fQTW4J8YvlymFQiy7KhU1wRivCITBhgyZB8AA-owpwH1y8CO2rehJm8QtWmOczsdN3oGChtv981q_1WyT_rgxiDNwlNLr-UW7QJ_fSXeJP9SflHCVwghLrC1mYSFWPcawlDEB2HLrPLAihja7pIdU7BEyurXtT1ezAQWT7N3vaeSjugzakMpq1NUeuJdaNA')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent flex flex-col justify-center p-6">
+<span class="text-white text-xs font-bold uppercase tracking-widest mb-1">Limited Time Only</span>
+<h2 class="text-white text-2xl font-extrabold leading-tight mb-2">Global Shipping<br/>Now Available!</h2>
+<button class="w-fit px-4 py-1.5 bg-white text-primary text-sm font-bold rounded-full shadow-sm">Shop Now</button>
+</div>
+<!-- Carousel Dots -->
+<div class="absolute bottom-3 right-4 flex gap-1.5">
+<div class="h-1.5 w-4 bg-white rounded-full"></div>
+<div class="h-1.5 w-1.5 bg-white/50 rounded-full"></div>
+<div class="h-1.5 w-1.5 bg-white/50 rounded-full"></div>
+</div>
+</div>
+</section>
+<!-- Horizontal Promotion Cards -->
+<section class="flex overflow-x-auto no-scrollbar gap-3 px-4 py-5">
+<div class="flex-shrink-0 w-64 p-4 rounded-xl bg-[#f8fcf4] dark:bg-primary/10 border border-primary/20 flex gap-3 items-center">
+<div class="h-12 w-12 rounded-lg bg-white flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="font-bold text-sm">100% Authentic</p>
+<p class="text-xs opacity-70">Direct from Korea</p>
+</div>
+</div>
+<div class="flex-shrink-0 w-64 p-4 rounded-xl bg-[#fff8f8] dark:bg-accent-red/10 border border-accent-red/20 flex gap-3 items-center">
+<div class="h-12 w-12 rounded-lg bg-white flex items-center justify-center text-accent-red shrink-0">
+<span class="material-symbols-outlined">local_fire_department</span>
+</div>
+<div>
+<p class="font-bold text-sm">Today's Deals</p>
+<p class="text-xs opacity-70">Up to 70% Off</p>
+</div>
+</div>
+</section>
+<!-- Category Tab Bar -->
+<nav class="sticky top-[57px] z-40 bg-white dark:bg-background-dark border-b border-[#f2f4f1] dark:border-white/10">
+<div class="flex overflow-x-auto no-scrollbar px-4 py-3 gap-2">
+<a class="flex-shrink-0 px-5 py-2 rounded-full bg-primary text-white text-sm font-bold transition-all" href="#">Best</a>
+<a class="flex-shrink-0 px-5 py-2 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 transition-all" href="#">New</a>
+<a class="flex-shrink-0 px-5 py-2 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 transition-all" href="#">Skincare</a>
+<a class="flex-shrink-0 px-5 py-2 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 transition-all" href="#">Masks</a>
+<a class="flex-shrink-0 px-5 py-2 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 transition-all" href="#">Sun Care</a>
+<a class="flex-shrink-0 px-5 py-2 rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 transition-all" href="#">Makeup</a>
+</div>
+</nav>
+<!-- Product Grid -->
+<main class="flex-1 px-4 py-4">
+<div class="grid grid-cols-2 gap-x-3 gap-y-6">
+<!-- Product Card 1 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative w-full aspect-square bg-[#f5f5f5] dark:bg-white/5 rounded-xl overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110" data-alt="COSRX Low pH Cleanser bottle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCRIFPGBoAOY_zgQMDji24IQaayuqxD-mbY5lpwqW_w3IH7kBP3fjNI1k2mO6BzrwPvbO03U2bswqdrPzZDvFVkoySIt89qsVdryPUjekxNeG662UkelGaeGLGxdya8lvXKNEWmdJaNyI1ggCxdOYbAMqed3r5s89kJRnxnZgmFHsvHaZpyv_WZjjbuAPFU8WcR3hWJZ-WxQnOjX0wlfg7tQfNAHyzS5XzxQ0rR3dhz6p4Ut81Fvy4drzTCvtGQhE9mdNg2lEsQhA')"></div>
+<button class="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-accent-red transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-accent-red text-white text-[10px] font-bold rounded uppercase">Hot</div>
+</div>
+<div class="px-1">
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">COSRX</p>
+<h3 class="text-sm font-medium line-clamp-2 leading-tight mb-1">Low pH Good Morning Gel Cleanser</h3>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="text-accent-red text-sm font-bold">20%</span>
+<span class="text-base font-bold">$12.00</span>
+</div>
+<p class="text-xs text-gray-400 line-through leading-none">$15.00</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 fill-[1]">star</span>
+<span class="text-[10px] font-bold">4.8</span>
+<span class="text-[10px] text-gray-400">(2.4k)</span>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative w-full aspect-square bg-[#f5f5f5] dark:bg-white/5 rounded-xl overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110" data-alt="Beauty of Joseon Relief Sun sunscreen tube" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAjQtctoKEmB2GxZ_NpMsngqaXxIK2Xm1Q6WvX-2rrZ2ZDThSc88ygH95n1X75VSE1NSMoPZOZl-pSvucyZIhBtnvd5s2H9_lIEH61S_X4HEDeCpzp5mY3cqXxNI9JS2Me_16oL5jsSfZEBfuN3J9pqdK5Bf-FJALdESs10lqBWEkVeTEXNabbIIWsFj2AWdZg1-gZFKBvhPGKzf9ELxxXQZi-Tv8m1jGMbgGxB8F0tdeksl3dbmBFeZeKSbG0v4kleOru_L6HFKw')"></div>
+<button class="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-accent-red transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="px-1">
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">BEAUTY OF JOSEON</p>
+<h3 class="text-sm font-medium line-clamp-2 leading-tight mb-1">Relief Sun : Rice + Probiotics</h3>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="text-accent-red text-sm font-bold">15%</span>
+<span class="text-base font-bold">$15.30</span>
+</div>
+<p class="text-xs text-gray-400 line-through leading-none">$18.00</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 fill-[1]">star</span>
+<span class="text-[10px] font-bold">4.9</span>
+<span class="text-[10px] text-gray-400">(4.1k)</span>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative w-full aspect-square bg-[#f5f5f5] dark:bg-white/5 rounded-xl overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110" data-alt="Anua Heartleaf Toner bottle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBY3cb-l0uftfn9rbcbawFH8F--nzEYXR_aXylOlTp9iycG4iJB7vaBViHxUV-Ce1E27I6r8XKjQzlazyaeJR6A3Rv09v0Aflw0gyKj-drzQbOmCBGCvxNJpqMoWZ7Gy9geaCZ67aGsYJ_NbKqDmVSSEolJduJN0hHmMS192dMYQBVgNrcEgoQasFnjooV0hWOlAo3ljEWIZcgIAec0FeKxhj1XHRpVERZxmMbhstO-JzbhzjxrKecPJh1jRVagqW77auvlVcVCbw')"></div>
+<button class="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-accent-red transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="px-1">
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">ANUA</p>
+<h3 class="text-sm font-medium line-clamp-2 leading-tight mb-1">Heartleaf 77% Soothing Toner</h3>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="text-accent-red text-sm font-bold">10%</span>
+<span class="text-base font-bold">$18.50</span>
+</div>
+<p class="text-xs text-gray-400 line-through leading-none">$20.50</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 fill-[1]">star</span>
+<span class="text-[10px] font-bold">4.7</span>
+<span class="text-[10px] text-gray-400">(1.8k)</span>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative w-full aspect-square bg-[#f5f5f5] dark:bg-white/5 rounded-xl overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-110" data-alt="Round Lab Birch Juice Cream tub" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpND3DnWTp5Ckc438UC3sVUrZuUytB5aI8tKQDfxYbn0eeMHmdHa6PF4eNTd-Crz7_AY2NWjbJ0nSyFjZnkcqF6XQiCPIcj8lw15n051z8ht_IWNLrco7V1MzNFDTaPEbWc0TVz8GUbieqH4ASxTZIlCEIL0vvNDCUtHl1s2-Yhs3MC8blTOcTjQg0rBktwutn7ZV4pnvqvQlvMfI9TnQkXTl3T7fhxzr9DosDUNQbM6Mc0NE_dONmWE0IHIKFu1LHiSgiWHpo6w')"></div>
+<button class="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-accent-red transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="px-1">
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">ROUND LAB</p>
+<h3 class="text-sm font-medium line-clamp-2 leading-tight mb-1">Birch Juice Moisturizing Cream</h3>
+<div class="flex items-center gap-1.5 mb-1">
+<span class="text-accent-red text-sm font-bold">25%</span>
+<span class="text-base font-bold">$21.00</span>
+</div>
+<p class="text-xs text-gray-400 line-through leading-none">$28.00</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 fill-[1]">star</span>
+<span class="text-[10px] font-bold">4.8</span>
+<span class="text-[10px] text-gray-400">(3.2k)</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Spacer for Bottom Nav -->
+<div class="h-20 bg-transparent"></div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white dark:bg-background-dark border-t border-[#f2f4f1] dark:border-white/10 px-4 pb-6 pt-2 z-50">
+<div class="flex items-center justify-between">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl fill-[1]">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+<span class="text-[10px] font-medium">Category</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined text-2xl">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined text-2xl">favorite</span>
+<span class="text-[10px] font-medium">Wishlist</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-[10px] font-medium">My Page</span>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

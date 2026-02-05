@@ -3,7 +3,8 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/config';
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/components/Header";
+import TopBanner from "@/components/TopBanner"; // Promotion Banner
+import Header from "@/components/stitch/Header"; // Stitch Layout Header
 import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
 import "../globals.css";
@@ -42,6 +43,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <CartProvider>
             <ToastProvider>
+              <TopBanner />
               <Header />
               <main className="flex-1">
                 {children}
