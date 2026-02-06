@@ -9,17 +9,26 @@ interface ProductCardProps {
     currentPrice: number;
     imageUrl: string;
     link: string;
-    locale: string;
     rank?: number;
 }
 
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 
-export default function ProductCard({ brand, title, originalPrice, currentPrice, imageUrl, link, rank, id, locale }: ProductCardProps) {
+import { useCurrencyContext } from '@/context/CurrencyContext';
+import { useLocale } from 'next-intl';
+import { translateText } from '@/lib/translate';
+
+export default function ProductCard({ brand, title, originalPrice, currentPrice, imageUrl, link, rank, id }: ProductCardProps) {
     const discount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
     const { addToCart } = useCart();
     const { addToast } = useToast();
+    const { formatPrice, convertPrice, currency } = useCurrencyContext();
+    const locale = useLocale();
+
+    // Translate brand and title
+    const translatedBrand = translateText(brand, locale);
+    const translatedTitle = translateText(title, locale);
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault(); // Prevent link click if wrapped
@@ -27,12 +36,12 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
 
         addToCart({
             id: String(id),
-            name: title,
-            brand: brand,
+            name: translatedTitle,
+            brand: translatedBrand,
             imageUrl: imageUrl,
             originalPrice: originalPrice,
             price: currentPrice,
-            currency: 'KRW',
+            currency: 'KRW', // Context handles conversion at display time, but cart stores original KRW data reference ideally
             quantity: 1,
             link: link
         });
@@ -44,7 +53,7 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
         <div className="flex flex-col gap-2 group block">
             <div className="relative w-full aspect-square bg-[#f5f5f5] dark:bg-white/5 rounded-xl overflow-hidden">
                 <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-105">
-                    <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+                    <img src={imageUrl} alt={translatedTitle} className="w-full h-full object-cover" />
                 </div>
 
                 {/* Ranking Badge - Large & Prominent */}
@@ -54,7 +63,7 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
                     </div>
                 </div>
 
-                {/* Hot Badge (if needed below rank) */}
+                {/* Hot Badge */}
                 <div className="absolute top-9 left-0 z-10 pl-1">
                     {discount > 0 && (
                         <div className="px-1.5 py-0.5 bg-black/50 backdrop-blur text-white text-[10px] font-bold rounded uppercase w-fit">
@@ -63,13 +72,12 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
                     )}
                 </div>
 
-
                 {/* Bottom Left: Add to Cart (Desktop Hover) */}
                 <div className="absolute bottom-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <button
                         onClick={handleAddToCart}
                         className="h-8 w-8 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center text-white hover:bg-primary transition-colors shadow-sm"
-                        title="장바구니 담기 (Add to Cart)"
+                        title="Add to Cart"
                     >
                         <ShoppingBag size={16} />
                     </button>
@@ -82,7 +90,7 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
                         target="_blank"
                         rel="noopener noreferrer"
                         className="h-8 w-8 rounded-full bg-white/90 dark:bg-black/60 backdrop-blur-sm flex items-center justify-center text-gray-700 dark:text-white hover:text-primary transition-colors shadow-sm"
-                        title="올리브영 페이지로 이동 (Go to Olive Young)"
+                        title="View on Olive Young"
                     >
                         <ExternalLink size={16} />
                     </a>
@@ -90,14 +98,20 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
             </div>
 
             <div className="px-1">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">{brand}</p>
-                <h3 className="text-sm font-medium line-clamp-2 leading-tight mb-1 h-9">{title}</h3>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">{translatedBrand}</p>
+                <h3 className="text-sm font-medium line-clamp-2 leading-tight mb-1 h-9">{translatedTitle}</h3>
                 <div className="flex items-center gap-1.5 mb-1">
                     {discount > 0 && <span className="text-accent-red text-sm font-bold">{discount}%</span>}
-                    {/* Force KRW Display */}
-                    <span className="text-base font-bold">{currentPrice.toLocaleString()}원</span>
+                    {/* Dynamic Price Display */}
+                    <span className="text-base font-bold text-gray-900 dark:text-white">
+                        {formatPrice(currentPrice)}
+                    </span>
                 </div>
-                {discount > 0 && <p className="text-xs text-gray-400 line-through leading-none">{originalPrice.toLocaleString()}원</p>}
+                {discount > 0 && (
+                    <p className="text-xs text-gray-400 line-through leading-none">
+                        {formatPrice(originalPrice)}
+                    </p>
+                )}
 
                 <div className="flex items-center gap-1 mt-2">
                     <Star size={12} className="text-yellow-400 fill-current" />

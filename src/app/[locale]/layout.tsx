@@ -7,6 +7,7 @@ import TopBanner from "@/components/TopBanner"; // Promotion Banner
 import Header from "@/components/stitch/Header"; // Stitch Layout Header
 import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
+import { CurrencyProvider } from '@/context/CurrencyContext';
 import "../globals.css";
 
 const geistSans = Geist({
@@ -42,13 +43,15 @@ export default async function LocaleLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
           <CartProvider>
-            <ToastProvider>
-              <TopBanner />
-              <Header />
-              <main className="flex-1">
-                {children}
-              </main>
-            </ToastProvider>
+            <CurrencyProvider>
+              <ToastProvider>
+                <TopBanner />
+                <Header />
+                <main className="flex-1">
+                  {children}
+                </main>
+              </ToastProvider>
+            </CurrencyProvider>
           </CartProvider>
         </NextIntlClientProvider>
       </body>

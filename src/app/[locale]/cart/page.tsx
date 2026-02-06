@@ -5,8 +5,7 @@ import Image from "next/image";
 import { Link } from "@/navigation";
 import { translateText } from "@/lib/translate";
 import { useCart } from "@/context/CartContext";
-import { useCurrency } from "@/hooks/useCurrency";
-import { getTargetCurrency } from "@/lib/currency";
+import { useCurrencyContext } from '@/context/CurrencyContext';
 import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -18,7 +17,7 @@ export default function CartPage({
     const t = useTranslations("Cart");
     const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
 
-    // We need locale for currency
+    // We need locale for translation
     const [locale, setLocale] = useState('en');
 
     useEffect(() => {
@@ -26,20 +25,21 @@ export default function CartPage({
     }, [params]);
 
     // Use centralized currency logic
-    const targetCurrency = getTargetCurrency(locale);
-    const { formatPrice, loading: ratesLoading } = useCurrency(targetCurrency);
+    const { formatPrice, loading } = useCurrencyContext();
 
-    // Calculate Total in KRW
+    // Calculate Total in KRW (Source of truth)
     // Use originalPrice (KRW) as base
-    const totalAmountKRW = cart.reduce((sum, item) => {
-        // If it's a new item with originalPrice (KRW), use it.
-        // If legacy item, try to reverse calc or just assume it's KRW (unlikely but safe fallback to avoid NaN)
-        const itemPriceKRW = item.originalPrice || (item.price * 1300); // Fallback estimate if needed
+    const totalAmountInKRW = cart.reduce((sum, item) => {
+        // If it's a new item with originalPrice (KRW), use it for accurate value basis
+        // If legacy item (price might be already converted or usd?), try to reverse calc or just assume it's KRW (unlikely but safe fallback to avoid NaN)
+        // NOTE: In product card we now pass originalPrice which IS KRW.
+        const itemPriceKRW = item.originalPrice || (item.price / 0.00075); // Fallback estimate if needed
         return sum + (itemPriceKRW * item.quantity);
     }, 0);
 
-    const shippingCostKRW = totalAmountKRW > 50000 ? 0 : 3000;
-    const finalTotalKRW = totalAmountKRW;
+    // Free shipping over 50,000 KRW (approx $38)
+    const shippingCostKRW = totalAmountInKRW > 50000 ? 0 : 3000;
+    const finalTotalKRW = totalAmountInKRW + shippingCostKRW;
 
     if (cart.length === 0) {
         return (
@@ -62,10 +62,10 @@ export default function CartPage({
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="flex items-center justify-between mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">Shopping Cart ({cart.length})</h1>
+                <h1 className="text-3xl font-bold text-gray-900">{t('title')} ({cart.length})</h1>
                 <button
                     onClick={() => {
-                        if (confirm('Are you sure you want to clear your cart?')) {
+                        if (confirm(t('clearCartConfirm') || 'Are you sure you want to clear your cart?')) {
                             clearCart();
                         }
                     }}
@@ -98,7 +98,7 @@ export default function CartPage({
                                     {translateText(item.name, locale)}
                                 </h3>
                                 <div className="text-lg font-bold text-gray-900">
-                                    {ratesLoading ? '...' : (item.originalPrice ? formatPrice(item.originalPrice) : formatPrice(item.price / 0.00075 /* Rough fallback for legacy */))}
+                                    {loading ? '...' : (item.originalPrice ? formatPrice(item.price) : formatPrice(item.price / 0.00075 /* Fallback */))}
                                 </div>
                             </div>
 
@@ -140,11 +140,16 @@ export default function CartPage({
                         <div className="space-y-4 mb-6">
                             <div className="flex justify-between text-gray-600">
                                 <span>{t('subtotal')}</span>
-                                <span>{ratesLoading ? '...' : formatPrice(totalAmountKRW)}</span>
+                                <span>{loading ? '...' : formatPrice(totalAmountInKRW)}</span>
                             </div>
                             <div className="flex justify-between text-gray-600">
                                 <span>{t('shipping')}</span>
-                                <span className="text-green-600 font-medium">{t('free')}</span>
+                                {/* Shipping Logic Display */}
+                                {shippingCostKRW > 0 ? (
+                                    <span className="text-gray-900">{formatPrice(shippingCostKRW)}</span>
+                                ) : (
+                                    <span className="text-green-600 font-medium">{t('free')}</span>
+                                )}
                             </div>
                         </div>
 
@@ -153,7 +158,7 @@ export default function CartPage({
                                 <span className="text-lg font-bold text-gray-900">{t('total')}</span>
                                 <div className="text-right">
                                     <span className="text-2xl font-bold text-gray-900 block">
-                                        {ratesLoading ? '...' : formatPrice(finalTotalKRW)}
+                                        {loading ? '...' : formatPrice(finalTotalKRW)}
                                     </span>
                                     <span className="text-xs text-gray-500">{t('tax')}</span>
                                 </div>

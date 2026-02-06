@@ -26,6 +26,7 @@
     "Cart": {
         "title": "Shopping Cart",
         "clearCart": "Clear Cart",
+        "clearCartConfirm": "Are you sure you want to clear your cart?",
         "empty": "Your cart is empty",
         "startShopping": "Start Shopping",
         "summary": "Order Summary",
@@ -36,5 +37,14 @@
         "checkout": "Proceed to Checkout",
         "secure": "Secure Checkout",
         "tax": "Including tax"
+    },
+    "TopBanner": {
+        "tag": "Free Shipping Global",
+        "mainText": "Olive Young items at $0 shipping!",
+        "subText": "Direct sourcing lowers the price.",
+        "benefit1": "Free Shipping",
+        "benefit2": "100% Authentic",
+        "benefit3": "Receipt Available",
+        "mobileText": "Get authentic Olive Young products at store prices with free shipping."
     }
 }
