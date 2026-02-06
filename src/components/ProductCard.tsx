@@ -56,18 +56,13 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
 
                 {/* Hot Badge (if needed below rank) */}
                 <div className="absolute top-9 left-0 z-10 pl-1">
-                     {discount > 0 && (
+                    {discount > 0 && (
                         <div className="px-1.5 py-0.5 bg-black/50 backdrop-blur text-white text-[10px] font-bold rounded uppercase w-fit">
                             Hot
                         </div>
                     )}
                 </div>
-                    {discount > 0 && (
-                        <div className="px-2 py-0.5 bg-accent-red text-white text-[10px] font-bold rounded uppercase w-fit">
-                            Hot
-                        </div>
-                    )}
-                </div>
+
 
                 {/* Bottom Left: Add to Cart (Desktop Hover) */}
                 <div className="absolute bottom-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
