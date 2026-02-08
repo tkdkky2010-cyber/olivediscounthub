@@ -8,6 +8,7 @@ import Header from "@/components/stitch/Header"; // Stitch Layout Header
 import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
 import { CurrencyProvider } from '@/context/CurrencyContext';
+import { SearchProvider } from '@/context/SearchContext';
 import "../globals.css";
 
 const geistSans = Geist({
@@ -45,11 +46,13 @@ export default async function LocaleLayout({
           <CartProvider>
             <CurrencyProvider>
               <ToastProvider>
-                <TopBanner />
-                <Header />
-                <main className="flex-1">
-                  {children}
-                </main>
+                <SearchProvider>
+                  <TopBanner />
+                  <Header />
+                  <main className="flex-1">
+                    {children}
+                  </main>
+                </SearchProvider>
               </ToastProvider>
             </CurrencyProvider>
           </CartProvider>

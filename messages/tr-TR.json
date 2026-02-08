@@ -14,7 +14,7 @@
         "authenticTitle": "%100 Orijinal",
         "authenticDesc": "Doğrudan Olive Young Kore'den",
         "shippingTitle": "Seul'den Direkt",
-        "shippingDesc": "Kapınıza ekspres kargo süresi",
+        "shippingDesc": "Kapınıza ekspres kargo",
         "qualityTitle": "K-Beauty'nin En İyisi",
         "qualityDesc": "En iyi ürünlerden seçilmiş koleksiyon"
     },
@@ -26,16 +26,54 @@
     "Cart": {
         "title": "Alışveriş Sepeti",
         "clearCart": "Sepeti Temizle",
+        "clearCartConfirm": "Sepetinizi temizlemek istediğinize emin misiniz?",
         "empty": "Sepetiniz boş",
         "emptyDesc": "Henüz herhangi bir ürün eklemediniz.",
         "startShopping": "Alışverişe Başla",
+        "items": "ürün",
         "summary": "Sipariş Özeti",
         "subtotal": "Ara Toplam",
+        "savings": "Tasarruf",
         "shipping": "Kargo",
         "free": "Ücretsiz",
+        "freeShippingProgress": "Ücretsiz kargo için {amount} daha ekleyin!",
         "total": "Toplam",
         "checkout": "Ödemeye Geç",
         "secure": "Güvenli Ödeme",
         "tax": "Vergiler dahil"
+    },
+    "TopBanner": {
+        "tag": "Dünya Çapında Ücretsiz Kargo",
+        "mainText": "Olive Young ürünleri ücretsiz kargo ile!",
+        "subText": "Doğrudan tedarik fiyatı düşürür.",
+        "benefit1": "Ücretsiz Kargo",
+        "benefit2": "%100 Orijinal",
+        "benefit3": "Fatura Mevcut",
+        "mobileText": "Orijinal Olive Young ürünlerini mağaza fiyatlarıyla ücretsiz kargo ile alın."
+    },
+    "Categories": {
+        "best": "En İyi",
+        "new": "Yeni",
+        "skincare": "Cilt Bakımı",
+        "masks": "Maskeler",
+        "suncare": "Güneş Koruma",
+        "makeup": "Makyaj",
+        "noProducts": "Bu kategoride henüz ürün bulunamadı."
+    },
+    "BottomNav": {
+        "home": "Ana Sayfa",
+        "category": "Kategori",
+        "search": "Ara",
+        "wishlist": "Favoriler",
+        "mypage": "Hesabım"
+    },
+    "Header": {
+        "searchPlaceholder": "K-Beauty Ara...",
+        "addedToCart": "Sepete Eklendi!"
+    },
+    "HeroCarousel": {
+        "limitedTime": "Sınırlı süre",
+        "headline": "Küresel kargo\nartık mevcut!",
+        "shopNow": "Hemen alışveriş yap"
     }
 }

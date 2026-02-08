@@ -1,18 +1,24 @@
+"use client";
+
+import { useTranslations } from 'next-intl';
+
 interface CategoryTabsProps {
     activeCategory: string;
     onSelect: (category: string) => void;
 }
 
-const CATEGORIES = [
-    { id: 'all', label: 'Best' },
-    { id: 'new', label: 'New' },
-    { id: 'skincare', label: 'Skincare' },
-    { id: 'mask', label: 'Masks' },
-    { id: 'suncare', label: 'Sun Care' },
-    { id: 'makeup', label: 'Makeup' },
-];
-
 export default function CategoryTabs({ activeCategory, onSelect }: CategoryTabsProps) {
+    const t = useTranslations('Categories');
+
+    const CATEGORIES = [
+        { id: 'all', label: t('best') },
+        { id: 'new', label: t('new') },
+        { id: 'skincare', label: t('skincare') },
+        { id: 'mask', label: t('masks') },
+        { id: 'suncare', label: t('suncare') },
+        { id: 'makeup', label: t('makeup') },
+    ];
+
     return (
         <nav className="sticky top-[57px] z-40 bg-white dark:bg-background-dark border-b border-[#f2f4f1] dark:border-white/10 w-full mb-4">
             <div className="flex overflow-x-auto no-scrollbar px-4 py-3 gap-2">

@@ -4,8 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/navigation";
 import { useState, useTransition, useRef, useEffect } from "react";
 import { localeNames, locales } from "@/config";
-import { ShoppingBag, ChevronDown, Check, Globe } from "lucide-react";
-import { useCurrency } from "@/hooks/useCurrency";
+import { ShoppingBag, ChevronDown, Globe } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Link } from "@/navigation";
 import CurrencyTicker from "./CurrencyTicker";
@@ -115,7 +114,7 @@ export default function Header() {
                                 }`}
                         >
                             <span className="text-xl drop-shadow-sm">{localeFlags[locale]}</span>
-                            <span className="hidden sm:inline-block">{localeNames[locale].split('(')[0].trim()}</span>
+                            <span className="hidden sm:inline-block">{localeNames[locale as keyof typeof localeNames]?.split('(')[0].trim()}</span>
                             <ChevronDown size={14} className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#6ab04c]' : ''}`} />
                         </button>
 
@@ -137,7 +136,7 @@ export default function Header() {
                                             <div className="flex items-center gap-3">
                                                 <span className="text-xl filter drop-shadow-sm group-hover:scale-110 transition-transform">{localeFlags[l] || <Globe size={18} />}</span>
                                                 <span className={`font-medium ${locale === l ? 'font-bold' : ''}`}>
-                                                    {localeNames[l]}
+                                                    {localeNames[l as keyof typeof localeNames]}
                                                 </span>
                                             </div>
                                             {locale === l && (

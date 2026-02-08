@@ -1,5 +1,7 @@
-import { Heart, Star } from 'lucide-react';
-import Image from 'next/image';
+"use client";
+
+import { Heart } from 'lucide-react';
+import { useCurrencyContext } from '@/context/CurrencyContext';
 
 interface ProductCardProps {
     id: string | number;
@@ -13,6 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ brand, name, originalPrice, currentPrice, imageUrl, rank }: ProductCardProps) {
     const discount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+    const { formatPrice } = useCurrencyContext();
 
     return (
         <div className="flex flex-col gap-2 group cursor-pointer">
@@ -43,15 +46,9 @@ export default function ProductCard({ brand, name, originalPrice, currentPrice, 
                 <h3 className="text-sm font-medium line-clamp-2 leading-tight mb-1 h-9">{name}</h3>
                 <div className="flex items-center gap-1.5 mb-1">
                     {discount > 0 && <span className="text-accent-red text-sm font-bold">{discount}%</span>}
-                    <span className="text-base font-bold">${currentPrice.toLocaleString()}</span>
+                    <span className="text-base font-bold">{formatPrice(currentPrice)}</span>
                 </div>
-                {discount > 0 && <p className="text-xs text-gray-400 line-through leading-none">${originalPrice.toLocaleString()}</p>}
-
-                <div className="flex items-center gap-1 mt-2">
-                    <Star size={12} className="text-yellow-400 fill-current" />
-                    <span className="text-[10px] font-bold">4.8</span>
-                    <span className="text-[10px] text-gray-400">(2.4k)</span>
-                </div>
+                {discount > 0 && <p className="text-xs text-gray-400 line-through leading-none">{formatPrice(originalPrice)}</p>}
             </div>
         </div>
     );

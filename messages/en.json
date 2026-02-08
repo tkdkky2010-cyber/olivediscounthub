@@ -28,11 +28,15 @@
         "clearCart": "Clear Cart",
         "clearCartConfirm": "Are you sure you want to clear your cart?",
         "empty": "Your cart is empty",
+        "emptyDesc": "Looks like you haven't added anything yet.",
         "startShopping": "Start Shopping",
+        "items": "items",
         "summary": "Order Summary",
         "subtotal": "Subtotal",
+        "savings": "Savings",
         "shipping": "Shipping",
         "free": "Free",
+        "freeShippingProgress": "Add {amount} more for free shipping!",
         "total": "Total",
         "checkout": "Proceed to Checkout",
         "secure": "Secure Checkout",
@@ -46,5 +50,30 @@
         "benefit2": "100% Authentic",
         "benefit3": "Receipt Available",
         "mobileText": "Get authentic Olive Young products at store prices with free shipping."
+    },
+    "Categories": {
+        "best": "Best",
+        "new": "New",
+        "skincare": "Skincare",
+        "masks": "Masks",
+        "suncare": "Sun Care",
+        "makeup": "Makeup",
+        "noProducts": "No products found in this category yet."
+    },
+    "BottomNav": {
+        "home": "Home",
+        "category": "Category",
+        "search": "Search",
+        "wishlist": "Wishlist",
+        "mypage": "My Page"
+    },
+    "Header": {
+        "searchPlaceholder": "Search for K-Beauty...",
+        "addedToCart": "Added to Cart!"
+    },
+    "HeroCarousel": {
+        "limitedTime": "Limited Time Only",
+        "headline": "Global Shipping\nNow Available!",
+        "shopNow": "Shop Now"
     }
 }

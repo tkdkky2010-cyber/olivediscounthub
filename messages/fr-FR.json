@@ -26,16 +26,54 @@
     "Cart": {
         "title": "Panier",
         "clearCart": "Vider le Panier",
+        "clearCartConfirm": "Êtes-vous sûr de vouloir vider votre panier?",
         "empty": "Votre panier est vide",
         "emptyDesc": "Vous n'avez pas encore ajouté d'articles.",
         "startShopping": "Commencer vos Achats",
+        "items": "articles",
         "summary": "Résumé de la Commande",
         "subtotal": "Sous-total",
+        "savings": "Économies",
         "shipping": "Livraison",
         "free": "Gratuit",
+        "freeShippingProgress": "Ajoutez {amount} pour la livraison gratuite !",
         "total": "Total",
         "checkout": "Passer la Commande",
         "secure": "Paiement Sécurisé",
         "tax": "Taxes incluses"
+    },
+    "TopBanner": {
+        "tag": "Livraison Gratuite Mondiale",
+        "mainText": "Produits Olive Young avec livraison gratuite !",
+        "subText": "L'approvisionnement direct réduit les prix.",
+        "benefit1": "Livraison Gratuite",
+        "benefit2": "100% Authentique",
+        "benefit3": "Reçu Disponible",
+        "mobileText": "Obtenez des produits Olive Young authentiques aux prix magasin avec livraison gratuite."
+    },
+    "Categories": {
+        "best": "Meilleur",
+        "new": "Nouveau",
+        "skincare": "Soin de peau",
+        "masks": "Masques",
+        "suncare": "Protection Solaire",
+        "makeup": "Maquillage",
+        "noProducts": "Aucun produit trouvé dans cette catégorie."
+    },
+    "BottomNav": {
+        "home": "Accueil",
+        "category": "Catégorie",
+        "search": "Rechercher",
+        "wishlist": "Favoris",
+        "mypage": "Mon Compte"
+    },
+    "Header": {
+        "searchPlaceholder": "Rechercher K-Beauty...",
+        "addedToCart": "Ajouté au Panier !"
+    },
+    "HeroCarousel": {
+        "limitedTime": "Offre limitée",
+        "headline": "Livraison mondiale\ndisponible !",
+        "shopNow": "Acheter maintenant"
     }
 }

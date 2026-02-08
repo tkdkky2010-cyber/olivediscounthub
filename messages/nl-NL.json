@@ -26,16 +26,54 @@
     "Cart": {
         "title": "Winkelwagen",
         "clearCart": "Winkelwagen legen",
+        "clearCartConfirm": "Weet u zeker dat u uw winkelwagen wilt legen?",
         "empty": "Uw winkelwagen is leeg",
         "emptyDesc": "U heeft nog geen artikelen toegevoegd.",
         "startShopping": "Begin met winkelen",
+        "items": "artikelen",
         "summary": "Besteloverzicht",
         "subtotal": "Subtotaal",
+        "savings": "Besparing",
         "shipping": "Verzending",
         "free": "Gratis",
+        "freeShippingProgress": "Voeg {amount} toe voor gratis verzending!",
         "total": "Totaal",
         "checkout": "Afrekenen",
         "secure": "Veilig betalen",
         "tax": "Inclusief belasting"
+    },
+    "TopBanner": {
+        "tag": "Wereldwijde Gratis Verzending",
+        "mainText": "Olive Young producten met gratis verzending!",
+        "subText": "Directe inkoop verlaagt de prijs.",
+        "benefit1": "Gratis Verzending",
+        "benefit2": "100% Authentiek",
+        "benefit3": "Bon Beschikbaar",
+        "mobileText": "Krijg authentieke Olive Young producten tegen winkelprijzen met gratis verzending."
+    },
+    "Categories": {
+        "best": "Beste",
+        "new": "Nieuw",
+        "skincare": "Huidverzorging",
+        "masks": "Maskers",
+        "suncare": "Zonbescherming",
+        "makeup": "Make-up",
+        "noProducts": "Geen producten gevonden in deze categorie."
+    },
+    "BottomNav": {
+        "home": "Home",
+        "category": "Categorie",
+        "search": "Zoeken",
+        "wishlist": "Verlanglijst",
+        "mypage": "Mijn Account"
+    },
+    "Header": {
+        "searchPlaceholder": "Zoek K-Beauty...",
+        "addedToCart": "Toegevoegd aan Winkelwagen!"
+    },
+    "HeroCarousel": {
+        "limitedTime": "Slechts beperkte tijd",
+        "headline": "Wereldwijde verzending\nnu beschikbaar!",
+        "shopNow": "Nu winkelen"
     }
 }

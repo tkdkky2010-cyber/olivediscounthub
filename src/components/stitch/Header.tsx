@@ -1,11 +1,29 @@
 "use client";
 
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname, Link } from '@/navigation';
-import { Search, ShoppingBag, Sprout, Globe } from 'lucide-react';
-import { localeNames, locales } from '@/config';
+import { Search, ShoppingBag, Sprout, Globe, ChevronDown } from 'lucide-react';
+import { localeNames, locales, Locale } from '@/config';
 import { useCart } from '@/context/CartContext';
-import { useState } from 'react';
+import { useCurrencyContext } from '@/context/CurrencyContext';
+import { useSearch } from '@/context/SearchContext';
+import { useState, useRef, useEffect } from 'react';
+
+const localeFlags: Record<string, string> = {
+    'ko': '\u{1F1F0}\u{1F1F7}',
+    'en': '\u{1F1FA}\u{1F1F8}',
+    'es-ES': '\u{1F1EA}\u{1F1F8}',
+    'fr-FR': '\u{1F1EB}\u{1F1F7}',
+    'de-DE': '\u{1F1E9}\u{1F1EA}',
+    'it-IT': '\u{1F1EE}\u{1F1F9}',
+    'nl-NL': '\u{1F1F3}\u{1F1F1}',
+    'pl-PL': '\u{1F1F5}\u{1F1F1}',
+    'pt-PT': '\u{1F1F5}\u{1F1F9}',
+    'ru-RU': '\u{1F1F7}\u{1F1FA}',
+    'tr-TR': '\u{1F1F9}\u{1F1F7}',
+    'es-MX': '\u{1F1F2}\u{1F1FD}',
+    'pt-BR': '\u{1F1E7}\u{1F1F7}',
+};
 
 export default function Header() {
     const locale = useLocale();
@@ -13,11 +31,28 @@ export default function Header() {
     const pathname = usePathname();
     const [isLangOpen, setIsLangOpen] = useState(false);
     const { cartCount } = useCart();
+    const { currency } = useCurrencyContext();
+    const { query, setQuery } = useSearch();
+    const t = useTranslations('Header');
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const handleLocaleChange = (newLocale: string) => {
         router.replace(pathname, { locale: newLocale });
         setIsLangOpen(false);
     };
+
+    // Close dropdown on outside click
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsLangOpen(false);
+            }
+        }
+        if (isLangOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isLangOpen]);
 
     return (
         <header className="sticky top-0 z-50 flex items-center bg-white/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 justify-between border-b border-[#f2f4f1] dark:border-white/10 w-full max-w-7xl mx-auto">
@@ -36,12 +71,14 @@ export default function Header() {
                 </Link>
             </div>
 
-            {/* Search Tab Next to Cart */}
+            {/* Search Bar */}
             <div className="flex-1 max-w-md mx-4 hidden md:block">
                 <div className="relative group">
                     <input
                         type="text"
-                        placeholder="Search for K-Beauty..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder={t('searchPlaceholder')}
                         className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all border border-transparent focus:bg-white dark:focus:bg-black"
                     />
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -49,39 +86,56 @@ export default function Header() {
             </div>
 
             <div className="flex items-center gap-3">
-                {/* Locale Switcher (Desktop) */}
-                <div className="relative hidden md:block">
+                {/* Currency Badge */}
+                <div className="hidden md:flex items-center px-2.5 py-1 bg-gray-50 dark:bg-white/5 rounded-full text-[11px] font-bold text-gray-500 dark:text-gray-400 border border-gray-100 dark:border-white/10">
+                    {currency}
+                </div>
+
+                {/* Locale Switcher */}
+                <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => setIsLangOpen(!isLangOpen)}
-                        className="flex items-center gap-1 p-1 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors text-xs font-bold text-gray-600 dark:text-gray-300"
+                        className="flex items-center gap-1.5 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors text-xs font-bold text-gray-600 dark:text-gray-300"
                     >
-                        <Globe size={18} />
-                        <span className="uppercase">{locale}</span>
+                        <span className="text-base">{localeFlags[locale] || ''}</span>
+                        <span className="hidden md:inline uppercase">{locale.split('-')[0]}</span>
+                        <ChevronDown size={14} className={`transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
                     </button>
 
                     {isLangOpen && (
-                        <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden py-1 z-50 max-h-[300px] overflow-y-auto">
+                        <div className="absolute top-full right-0 mt-2 w-56 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-xl overflow-hidden py-2 z-50 max-h-[360px] overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-200">
                             {locales.map((l) => (
                                 <button
                                     key={l}
                                     onClick={() => handleLocaleChange(l)}
-                                    className={`w-full text-left px-4 py-2 text-xs font-medium hover:bg-gray-50 dark:hover:bg-gray-800 ${locale === l ? 'text-primary font-bold' : 'text-gray-600 dark:text-gray-300'}`}
+                                    className={`w-full text-left px-4 py-2.5 text-sm font-medium flex items-center gap-3 transition-colors ${
+                                        locale === l
+                                            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-bold'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                    }`}
                                 >
-                                    {localeNames[l]}
+                                    <span className="text-lg">{localeFlags[l] || ''}</span>
+                                    <span className="flex-1">{localeNames[l as Locale]}</span>
+                                    {locale === l && (
+                                        <span className="w-2 h-2 rounded-full bg-green-500" />
+                                    )}
                                 </button>
                             ))}
                         </div>
                     )}
                 </div>
 
+                {/* Cart */}
                 <div className="relative p-1">
                     <Link href="/cart">
-                        <button className="hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors">
-                            <ShoppingBag size={24} className="text-gray-600 dark:text-gray-300" />
+                        <button className="hover:bg-gray-100 dark:hover:bg-white/10 p-1.5 rounded-full transition-colors">
+                            <ShoppingBag size={22} className="text-gray-600 dark:text-gray-300" />
                         </button>
                     </Link>
                     {cartCount > 0 && (
-                        <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-accent-red text-[10px] font-bold text-white">{cartCount}</span>
+                        <span className="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent-red text-[10px] font-bold text-white shadow-sm">
+                            {cartCount}
+                        </span>
                     )}
                 </div>
             </div>
