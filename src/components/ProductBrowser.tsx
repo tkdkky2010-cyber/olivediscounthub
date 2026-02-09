@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import ProductCard from '@/components/ProductCard';
 import CategoryTabs from '@/components/CategoryTabs';
 import { Product } from '@/lib/oliveyoung';
 import { useSearch } from '@/context/SearchContext';
+import { getProductTranslation, getBrandTranslation } from '@/data/product-translations';
 
 interface ProductBrowserProps {
     initialProducts: Product[];
@@ -15,12 +16,18 @@ export default function ProductBrowser({ initialProducts }: ProductBrowserProps)
     const [activeCategory, setActiveCategory] = useState('all');
     const { query } = useSearch();
     const t = useTranslations('Categories');
+    const locale = useLocale();
 
     const filteredProducts = initialProducts.filter(p => {
         const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
-        const matchesSearch = !query ||
-            p.name.toLowerCase().includes(query.toLowerCase()) ||
-            p.brand.toLowerCase().includes(query.toLowerCase());
+        if (!query) return matchesCategory;
+        const q = query.toLowerCase();
+        const translatedName = getProductTranslation(p.id, p.name, locale).toLowerCase();
+        const translatedBrand = getBrandTranslation(p.brand, locale).toLowerCase();
+        const matchesSearch = p.name.toLowerCase().includes(q) ||
+            p.brand.toLowerCase().includes(q) ||
+            translatedName.includes(q) ||
+            translatedBrand.includes(q);
         return matchesCategory && matchesSearch;
     });
 

@@ -1,3 +1,4 @@
+export { getProductTranslation, getBrandTranslation } from '@/data/product-translations';
 
 // Map of common Korean cosmetics terms to English/Spanish/Portuguese
 // Since we don't have a real API, we use a simple dictionary and a heuristic fallback.

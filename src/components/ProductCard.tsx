@@ -15,7 +15,7 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import { useCurrencyContext } from '@/context/CurrencyContext';
 import { useLocale, useTranslations } from 'next-intl';
-import { translateText } from '@/lib/translate';
+import { getProductTranslation, getBrandTranslation } from '@/data/product-translations';
 
 export default function ProductCard({ brand, title, originalPrice, currentPrice, imageUrl, link, rank, id }: ProductCardProps) {
     const discount = originalPrice > 0 ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
@@ -26,8 +26,8 @@ export default function ProductCard({ brand, title, originalPrice, currentPrice,
     const t = useTranslations('Header');
 
     // Translate brand and title for display
-    const translatedBrand = translateText(brand, locale);
-    const translatedTitle = translateText(title, locale);
+    const translatedBrand = getBrandTranslation(brand, locale);
+    const translatedTitle = getProductTranslation(String(id), title, locale);
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();

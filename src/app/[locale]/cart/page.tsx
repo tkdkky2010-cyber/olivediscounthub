@@ -3,7 +3,7 @@
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/navigation";
-import { translateText } from "@/lib/translate";
+import { getProductTranslation, getBrandTranslation } from "@/data/product-translations";
 import { useCart } from "@/context/CartContext";
 import { useCurrencyContext } from '@/context/CurrencyContext';
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, Sparkles, Truck, Shield } from "lucide-react";
@@ -103,7 +103,7 @@ export default function CartPage() {
                             <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0">
                                 <Image
                                     src={item.imageUrl}
-                                    alt={translateText(item.name, locale)}
+                                    alt={getProductTranslation(item.id, item.name, locale)}
                                     fill
                                     className="object-cover"
                                     unoptimized
@@ -113,10 +113,10 @@ export default function CartPage() {
                             {/* Details */}
                             <div className="flex-1 min-w-0">
                                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide mb-1">
-                                    {translateText(item.brand, locale)}
+                                    {getBrandTranslation(item.brand, locale)}
                                 </p>
                                 <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2 mb-2">
-                                    {translateText(item.name, locale)}
+                                    {getProductTranslation(item.id, item.name, locale)}
                                 </h3>
                                 <div className="flex items-center gap-2">
                                     <span className="text-lg font-bold text-gray-900">
