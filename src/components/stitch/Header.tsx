@@ -30,7 +30,7 @@ export default function Header() {
     const router = useRouter();
     const pathname = usePathname();
     const [isLangOpen, setIsLangOpen] = useState(false);
-    const { cartCount } = useCart();
+    const { cartCount, openDrawer } = useCart();
     const { currency } = useCurrencyContext();
     const { query, setQuery } = useSearch();
     const t = useTranslations('Header');
@@ -127,11 +127,12 @@ export default function Header() {
 
                 {/* Cart */}
                 <div className="relative p-1">
-                    <Link href="/cart">
-                        <button className="hover:bg-gray-100 dark:hover:bg-white/10 p-1.5 rounded-full transition-colors">
-                            <ShoppingBag size={22} className="text-gray-600 dark:text-gray-300" />
-                        </button>
-                    </Link>
+                    <button
+                        onClick={openDrawer}
+                        className="hover:bg-gray-100 dark:hover:bg-white/10 p-1.5 rounded-full transition-colors"
+                    >
+                        <ShoppingBag size={22} className="text-gray-600 dark:text-gray-300" />
+                    </button>
                     {cartCount > 0 && (
                         <span className="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent-red text-[10px] font-bold text-white shadow-sm">
                             {cartCount}

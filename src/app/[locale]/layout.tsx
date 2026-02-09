@@ -9,6 +9,7 @@ import { CartProvider } from '@/context/CartContext';
 import { ToastProvider } from '@/context/ToastContext';
 import { CurrencyProvider } from '@/context/CurrencyContext';
 import { SearchProvider } from '@/context/SearchContext';
+import CartDrawer from '@/components/CartDrawer';
 import "../globals.css";
 
 const geistSans = Geist({
@@ -49,6 +50,7 @@ export default async function LocaleLayout({
                 <SearchProvider>
                   <TopBanner />
                   <Header />
+                  <CartDrawer />
                   <main className="flex-1">
                     {children}
                   </main>
