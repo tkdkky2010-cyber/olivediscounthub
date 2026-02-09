@@ -33,14 +33,19 @@
         "items": "items",
         "summary": "Order Summary",
         "subtotal": "Subtotal",
+        "productAmount": "Product Amount",
         "savings": "Savings",
         "shipping": "Shipping",
         "free": "Free",
         "freeShippingProgress": "Add {amount} more for free shipping!",
+        "taxRate": "Tax (10%)",
+        "totalAmount": "Total Amount",
         "total": "Total",
+        "order": "Place Order",
         "checkout": "Proceed to Checkout",
         "secure": "Secure Checkout",
-        "tax": "Including tax"
+        "tax": "Including tax",
+        "quantity": "Qty"
     },
     "TopBanner": {
         "tag": "Free Shipping Global",

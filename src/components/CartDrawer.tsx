@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { X, Trash2, Plus, Minus, ShoppingBag, Truck, Shield } from "lucide-react";
+import { X, Trash2, Plus, Minus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCart } from "@/context/CartContext";
 import { useCurrencyContext } from "@/context/CurrencyContext";
@@ -33,14 +33,10 @@ export default function CartDrawer() {
     }, [isDrawerOpen, closeDrawer]);
 
     const totalAmountInKRW = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const totalOriginalKRW = cart.reduce((sum, item) => sum + (item.originalPrice || item.price) * item.quantity, 0);
-    const savingsKRW = totalOriginalKRW - totalAmountInKRW;
-
-    const FREE_SHIPPING_THRESHOLD = 50000;
-    const shippingCostKRW = totalAmountInKRW > FREE_SHIPPING_THRESHOLD ? 0 : 3000;
-    const finalTotalKRW = totalAmountInKRW + shippingCostKRW;
-    const shippingProgress = Math.min((totalAmountInKRW / FREE_SHIPPING_THRESHOLD) * 100, 100);
-    const amountToFreeShipping = FREE_SHIPPING_THRESHOLD - totalAmountInKRW;
+    const TAX_RATE = 0.10;
+    const taxAmountKRW = Math.round(totalAmountInKRW * TAX_RATE);
+    const shippingCostKRW = 0; // Free shipping
+    const finalTotalKRW = totalAmountInKRW + shippingCostKRW + taxAmountKRW;
 
     return (
         <>
@@ -54,60 +50,48 @@ export default function CartDrawer() {
             <div
                 className={`fixed top-0 right-0 h-full w-full max-w-[420px] bg-white dark:bg-gray-900 z-[70] shadow-2xl flex flex-col transition-transform duration-300 ease-out ${isDrawerOpen ? "translate-x-0" : "translate-x-full"}`}
             >
-                {/* Header */}
-                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">
-                    <div className="flex items-center gap-2">
-                        <ShoppingBag size={20} className="text-primary" />
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white">{t("title")}</h2>
-                        {cartCount > 0 && (
-                            <span className="ml-1 bg-primary/10 text-primary text-xs font-bold px-2 py-0.5 rounded-full">
-                                {cartCount}
-                            </span>
-                        )}
-                    </div>
+                {/* Green Header */}
+                <div className="flex items-center justify-between px-5 py-4 bg-[#4CAF50]">
+                    <h2 className="text-lg font-bold text-white">{t("title")}</h2>
                     <button
                         onClick={closeDrawer}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                        className="p-1 hover:bg-white/20 rounded-full transition-colors"
                     >
-                        <X size={20} className="text-gray-500" />
+                        <X size={22} className="text-white" />
                     </button>
                 </div>
 
-                {/* Empty State */}
-                {cart.length === 0 ? (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
-                        <div className="w-20 h-20 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mb-5">
-                            <ShoppingBag className="w-9 h-9 text-gray-300 dark:text-gray-600" />
+                {/* Cart Content Area */}
+                <div className="flex-1 overflow-y-auto">
+                    {cart.length === 0 ? (
+                        /* Empty State */
+                        <div className="flex flex-col items-center justify-center h-full text-center px-6">
+                            {/* Shopping Cart SVG Icon */}
+                            <svg
+                                width="100"
+                                height="100"
+                                viewBox="0 0 100 100"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="mb-6 text-gray-300"
+                            >
+                                <path d="M25 25H15L5 85H80L70 25H60" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M35 25C35 16.7 41.7 10 50 10C58.3 10 65 16.7 65 25" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <circle cx="30" cy="90" r="5" fill="currentColor"/>
+                                <circle cx="65" cy="90" r="5" fill="currentColor"/>
+                                <path d="M20 40H65" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                <path d="M22 50H63" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                <path d="M24 60H61" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            </svg>
+                            <p className="text-base text-gray-400">{t("empty")}</p>
                         </div>
-                        <p className="text-lg font-bold text-gray-900 dark:text-white mb-1">{t("empty")}</p>
-                        <p className="text-sm text-gray-400">{t("emptyDesc")}</p>
-                    </div>
-                ) : (
-                    <>
-                        {/* Free Shipping Progress */}
-                        {totalAmountInKRW < FREE_SHIPPING_THRESHOLD && (
-                            <div className="px-5 py-3 bg-green-50 dark:bg-green-900/20 border-b border-green-100 dark:border-green-800/30">
-                                <div className="flex items-center gap-2 mb-1.5">
-                                    <Truck size={14} className="text-green-600" />
-                                    <span className="text-xs font-medium text-green-700 dark:text-green-400">
-                                        {t("freeShippingProgress", { amount: formatPrice(amountToFreeShipping) })}
-                                    </span>
-                                </div>
-                                <div className="w-full h-1.5 bg-green-100 dark:bg-green-800/40 rounded-full overflow-hidden">
-                                    <div
-                                        className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full transition-all duration-500"
-                                        style={{ width: `${shippingProgress}%` }}
-                                    />
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Items List */}
-                        <div className="flex-1 overflow-y-auto px-5 py-3 space-y-3">
+                    ) : (
+                        /* Cart Items */
+                        <div className="px-4 py-3 space-y-3">
                             {cart.map((item) => (
-                                <div key={item.id} className="flex gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
-                                    {/* Image */}
-                                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-white dark:bg-gray-700 flex-shrink-0">
+                                <div key={item.id} className="flex gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                    {/* Product Image */}
+                                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-white dark:bg-gray-700 flex-shrink-0 border border-gray-100">
                                         <img
                                             src={item.imageUrl}
                                             alt={getProductTranslation(item.id, item.name, locale)}
@@ -115,107 +99,121 @@ export default function CartDrawer() {
                                         />
                                     </div>
 
-                                    {/* Details */}
+                                    {/* Product Details */}
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-[9px] text-gray-400 font-bold uppercase tracking-wide">
+                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide mb-0.5">
                                             {getBrandTranslation(item.brand, locale)}
                                         </p>
-                                        <h4 className="text-xs font-semibold text-gray-900 dark:text-white line-clamp-2 leading-tight mb-1">
+                                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-tight mb-2">
                                             {getProductTranslation(item.id, item.name, locale)}
                                         </h4>
+
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm font-bold text-gray-900 dark:text-white">
                                                 {loading ? "..." : formatPrice(item.price)}
                                             </span>
-                                            <div className="flex items-center gap-1">
+
+                                            {/* Quantity Controls */}
+                                            <div className="flex items-center gap-0.5">
                                                 <button
                                                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                                     disabled={item.quantity <= 1}
-                                                    className={`w-6 h-6 flex items-center justify-center rounded-full text-xs ${item.quantity <= 1 ? "text-gray-300 dark:text-gray-600" : "text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"}`}
+                                                    className={`w-7 h-7 flex items-center justify-center rounded-full border text-xs transition-colors ${
+                                                        item.quantity <= 1
+                                                            ? "text-gray-300 border-gray-200 dark:text-gray-600 dark:border-gray-600"
+                                                            : "text-gray-600 border-gray-300 dark:text-gray-300 dark:border-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                    }`}
                                                 >
                                                     <Minus size={12} />
                                                 </button>
-                                                <span className="w-5 text-center text-xs font-bold text-gray-700 dark:text-gray-300">{item.quantity}</span>
+                                                <span className="w-7 text-center text-sm font-bold text-gray-700 dark:text-gray-300">
+                                                    {item.quantity}
+                                                </span>
                                                 <button
                                                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                    className="w-6 h-6 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs"
+                                                    className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-500 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-xs transition-colors"
                                                 >
                                                     <Plus size={12} />
                                                 </button>
                                                 <button
                                                     onClick={() => removeFromCart(item.id)}
-                                                    className="w-6 h-6 flex items-center justify-center rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 ml-1"
+                                                    className="w-7 h-7 flex items-center justify-center rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 ml-1 transition-colors"
                                                 >
-                                                    <Trash2 size={12} />
+                                                    <Trash2 size={13} />
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             ))}
-                        </div>
-
-                        {/* Summary Footer */}
-                        <div className="border-t border-gray-100 dark:border-gray-800 px-5 py-4 space-y-3 bg-gray-50/50 dark:bg-gray-800/30">
-                            {/* Subtotal */}
-                            <div className="flex justify-between text-sm">
-                                <span className="text-gray-500">{t("subtotal")}</span>
-                                <span className="font-medium text-gray-700 dark:text-gray-300">{loading ? "..." : formatPrice(totalAmountInKRW)}</span>
-                            </div>
-
-                            {/* Savings */}
-                            {savingsKRW > 0 && (
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-green-600">{t("savings")}</span>
-                                    <span className="text-green-600 font-bold">-{formatPrice(savingsKRW)}</span>
-                                </div>
-                            )}
-
-                            {/* Shipping */}
-                            <div className="flex justify-between text-sm">
-                                <span className="text-gray-500">{t("shipping")}</span>
-                                {shippingCostKRW > 0 ? (
-                                    <span className="font-medium text-gray-700 dark:text-gray-300">{formatPrice(shippingCostKRW)}</span>
-                                ) : (
-                                    <span className="text-green-600 font-bold">{t("free")}</span>
-                                )}
-                            </div>
-
-                            {/* Total */}
-                            <div className="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between items-end">
-                                <div>
-                                    <span className="text-sm font-bold text-gray-900 dark:text-white">{t("total")}</span>
-                                    <p className="text-[10px] text-gray-400">{t("tax")}</p>
-                                </div>
-                                <span className="text-xl font-bold text-gray-900 dark:text-white">
-                                    {loading ? "..." : formatPrice(finalTotalKRW)}
-                                </span>
-                            </div>
-
-                            {/* Checkout Button */}
-                            <button
-                                className="w-full py-3.5 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-bold text-sm hover:from-green-700 hover:to-green-600 transition-all shadow-lg shadow-green-600/20 flex items-center justify-center gap-2"
-                                onClick={() => alert("Checkout is disabled for this demo.")}
-                            >
-                                {t("checkout")}
-                            </button>
-
-                            {/* Secure */}
-                            <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-400">
-                                <Shield size={12} className="text-green-500" />
-                                {t("secure")}
-                            </div>
 
                             {/* Clear Cart */}
-                            <button
-                                onClick={() => { if (confirm(t("clearCartConfirm"))) clearCart(); }}
-                                className="w-full text-center text-xs text-gray-400 hover:text-red-500 transition-colors pt-1"
-                            >
-                                {t("clearCart")}
-                            </button>
+                            {cart.length > 0 && (
+                                <button
+                                    onClick={() => { if (confirm(t("clearCartConfirm"))) clearCart(); }}
+                                    className="w-full text-center text-xs text-gray-400 hover:text-red-500 transition-colors py-2"
+                                >
+                                    {t("clearCart")}
+                                </button>
+                            )}
                         </div>
-                    </>
-                )}
+                    )}
+                </div>
+
+                {/* Summary Footer - Always Visible */}
+                <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-5 py-4">
+                    {/* Product Amount */}
+                    <div className="flex justify-between items-center py-1.5">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{t("productAmount")}</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {loading ? "..." : formatPrice(totalAmountInKRW)}
+                        </span>
+                    </div>
+
+                    {/* Shipping Fee */}
+                    <div className="flex justify-between items-center py-1.5">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{t("shipping")}</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {loading ? "..." : formatPrice(shippingCostKRW)}
+                        </span>
+                    </div>
+
+                    {/* Tax (10%) */}
+                    <div className="flex justify-between items-center py-1.5">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{t("taxRate")}</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {loading ? "..." : formatPrice(taxAmountKRW)}
+                        </span>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 dark:border-gray-700 my-2" />
+
+                    {/* Total Amount */}
+                    <div className="flex justify-between items-center py-1.5">
+                        <span className="text-base font-bold text-gray-900 dark:text-white">{t("totalAmount")}</span>
+                        <span className="text-base font-bold text-gray-900 dark:text-white">
+                            {loading ? "..." : formatPrice(finalTotalKRW)}
+                        </span>
+                    </div>
+
+                    {/* Order Button */}
+                    <button
+                        disabled={cart.length === 0}
+                        className={`w-full py-3.5 rounded-lg font-bold text-sm mt-3 transition-all ${
+                            cart.length === 0
+                                ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+                                : "bg-[#4CAF50] text-white hover:bg-[#43A047] shadow-lg shadow-green-600/20"
+                        }`}
+                        onClick={() => {
+                            if (cart.length > 0) {
+                                alert("Checkout is disabled for this demo.");
+                            }
+                        }}
+                    >
+                        {t("order")}
+                    </button>
+                </div>
             </div>
         </>
     );
