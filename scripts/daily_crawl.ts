@@ -1,21 +1,23 @@
-
 import { chromium, type Browser, type Page } from 'playwright';
 import fs from 'fs';
 import path from 'path';
+import robotsParser from 'robots-parser';
+import fetch from 'node-fetch';
 
 // --- Configuration & Constants ---
 const DATA_DIR = path.join(process.cwd(), 'src/data');
 const OUTPUT_FILE = path.join(DATA_DIR, 'scraped_products.json');
+const ROBOTS_TXT_URL = 'https://www.oliveyoung.co.kr/robots.txt';
+const USER_AGENT = 'OliveRankingInfoBot/1.0 (https://olive-discount-hub.com; crawler@olive-discount-hub.com)';
 
 const CATEGORIES = [
     { id: 'all', name: 'Best Ranking', url: 'https://www.oliveyoung.co.kr/store/main/getBestList.do?t_page=%ED%99%88&t_click=GNB&t_gnb_type=%EB%9E%AD%ED%82%B9&t_swiping_type=N' }
 ];
 
 // User-defined limits
-const MIN_DELAY_MS = 1000;
-const MAX_DELAY_MS = 3000;
+const MIN_DELAY_MS = 1500;
+const MAX_DELAY_MS = 3500;
 const ITEMS_PER_CATEGORY = 100;
-
 
 interface Product {
     id: number;
@@ -33,13 +35,38 @@ interface Product {
 
 // --- Helper Functions ---
 
+/**
+ * Check robots.txt compliance
+ */
+async function checkRobotsTxt(targetUrl: string): Promise<boolean> {
+    try {
+        console.log('🤖 Checking robots.txt...');
+        const response = await fetch(ROBOTS_TXT_URL);
+        const robotsTxt = await response.text();
+
+        const robots = robotsParser(ROBOTS_TXT_URL, robotsTxt);
+        const isAllowed = robots.isAllowed(targetUrl, USER_AGENT) ?? true;
+
+        if (!isAllowed) {
+            console.error('❌ CRITICAL: Crawling disallowed by robots.txt');
+            console.error('   Target URL:', targetUrl);
+            return false;
+        }
+
+        console.log('✅ robots.txt check passed');
+        return true;
+    } catch (error: any) {
+        console.error('⚠️ Failed to check robots.txt (ignoring):', error.message);
+        return true;
+    }
+}
+
 function randomDelay(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 async function humanDelay(page: Page) {
     const delay = randomDelay(MIN_DELAY_MS, MAX_DELAY_MS);
-    // console.log(`[Human] Waiting ${delay}ms...`); // Reduce noise
     await page.waitForTimeout(delay);
 }
 
@@ -79,17 +106,20 @@ async function scrollForItems(page: Page, targetCount: number) {
 // --- Main Crawler Logic ---
 
 async function scrapeOliveYoung() {
-    console.log('[Crawler] Starting Multi-Category Crawler...');
-    console.log(`[Crawler] Target: ${CATEGORIES.length} categories x ${ITEMS_PER_CATEGORY} items`);
+    console.log('[Crawler] Starting Improved Multi-Category Crawler...');
+
+    if (!(await checkRobotsTxt('https://www.oliveyoung.co.kr/'))) {
+        process.exit(1);
+    }
 
     const browser = await chromium.launch({
-        headless: false,
+        headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const context = await browser.newContext({
         viewport: { width: 1920, height: 1080 },
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        userAgent: USER_AGENT,
         locale: 'ko-KR',
         timezoneId: 'Asia/Seoul',
     });
@@ -102,16 +132,13 @@ async function scrapeOliveYoung() {
             console.log(`\n[Crawler] Processing Category: ${category.name} (${category.id})...`);
 
             try {
-                await page.goto(category.url, { waitUntil: 'domcontentloaded' });
+                await page.goto(category.url, { waitUntil: 'domcontentloaded', timeout: 30000 });
                 await humanDelay(page);
 
-                // Wait for the list to appear specifically for Ranking page structure
-                // Sometimes it's inside #Container -> .best-area
-                // But .cate_prd_list is the common list class.
                 try {
-                    await page.waitForSelector('ul.cate_prd_list > li', { timeout: 10000 });
+                    await page.waitForSelector('ul.cate_prd_list > li', { timeout: 15000 });
                 } catch (e) {
-                    console.log('[Crawler] List selector not found immediately, scrolling might help or page structure differs.');
+                    console.log('[Crawler] List selector not found immediately, scrolling might help.');
                 }
 
                 // Scroll to load items
@@ -130,10 +157,8 @@ async function scrapeOliveYoung() {
                     const currentPriceText = await item.locator('.tx_cur .num').textContent().catch(() => null);
 
                     if (!name || !currentPriceText) {
-                        console.log(`[Crawler] Skip Item ${i}: Missing name/price.`);
                         continue;
                     }
-                    console.log(`[Crawler] Item ${i}: ${name.trim().substring(0, 10)}...`); // Log every success
 
                     const brand = await item.locator('.tx_brand').textContent().catch(() => 'Unknown');
                     const originalPriceText = await item.locator('.tx_org .num').textContent().catch(() => null);
@@ -141,26 +166,23 @@ async function scrapeOliveYoung() {
                     const originalPrice = originalPriceText ? parseInt(originalPriceText.replace(/,/g, '')) : null;
                     const currentPrice = parseInt(currentPriceText.replace(/,/g, ''));
 
-                    const imageUrl = await item.locator('img').first().getAttribute('src').catch(() => '');
+                    const imgElement = item.locator('img').first();
+                    const imageUrl = await imgElement.getAttribute('src')
+                        .catch(() => imgElement.getAttribute('data-original'))
+                        .catch(() => imgElement.getAttribute('data-src'))
+                        .catch(() => '');
 
-                    // Link handling
-                    // usually href="javascript:common.link.moveGoodsDetail('A000000...')" or a direct link
-                    // On mweb it might be standard link. Let's check href.
-                    // If simple href, grab it. If javascript, extract ID.
                     const linkHref = await item.locator('a').first().getAttribute('href').catch(() => '');
                     let goodsNo = '';
 
                     if (linkHref?.includes('goodsNo=')) {
                         goodsNo = linkHref.split('goodsNo=')[1]?.split('&')[0];
                     } else if (linkHref?.includes('moveGoodsDetail')) {
-                        // javascript:common.link.moveGoodsDetail('A0000...')
                         const match = linkHref.match(/'([^']+)'/);
                         if (match) goodsNo = match[1];
                     }
 
                     const link = goodsNo ? `https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=${goodsNo}` : '';
-                    // Use goodsNo as ID logic if needed, or simple incremental uniqueness
-                    // Combining category helps uniqueness if item appears in multiple
                     const id = goodsNo ? parseInt(goodsNo.replace(/\D/g, '')) : (allProducts.length + i + 1);
 
                     if (name && currentPrice) {
@@ -176,11 +198,15 @@ async function scrapeOliveYoung() {
                             link
                         });
                     }
-                }
-                console.log(`[Crawler] Completed ${category.name}. Total So Far: ${allProducts.length}`);
 
-            } catch (catErr) {
-                console.error(`[Crawler] Error processing category ${category.name}:`, catErr);
+                    if (i % 20 === 0) {
+                        process.stdout.write(`\r[Crawler] Progress: ${i}/${limit}`);
+                    }
+                }
+                console.log(`\n[Crawler] Completed ${category.name}. Total So Far: ${allProducts.length}`);
+
+            } catch (catErr: any) {
+                console.error(`[Crawler] Error processing category ${category.name}:`, catErr.message);
             }
         }
 
@@ -197,8 +223,8 @@ async function scrapeOliveYoung() {
             console.warn('[Crawler] No products found after all categories.');
         }
 
-    } catch (error) {
-        console.error('[Crawler] Critical Error:', error);
+    } catch (error: any) {
+        console.error('[Crawler] Critical Error:', error.message);
     } finally {
         await context.close();
         await browser.close();

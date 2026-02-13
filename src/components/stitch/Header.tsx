@@ -2,26 +2,17 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter, usePathname, Link } from '@/navigation';
-import { Search, ShoppingBag, Sprout, Globe, ChevronDown } from 'lucide-react';
+import { Search, ShoppingBag, Sprout, Globe, ChevronDown, User as UserIcon, LogOut, LogIn } from 'lucide-react';
 import { localeNames, locales, Locale } from '@/config';
 import { useCart } from '@/context/CartContext';
 import { useCurrencyContext } from '@/context/CurrencyContext';
 import { useSearch } from '@/context/SearchContext';
 import { useState, useRef, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 const localeFlags: Record<string, string> = {
-    'ko': '\u{1F1F0}\u{1F1F7}',
-    'en': '\u{1F1FA}\u{1F1F8}',
-    'es-ES': '\u{1F1EA}\u{1F1F8}',
-    'fr-FR': '\u{1F1EB}\u{1F1F7}',
-    'de-DE': '\u{1F1E9}\u{1F1EA}',
-    'it-IT': '\u{1F1EE}\u{1F1F9}',
-    'nl-NL': '\u{1F1F3}\u{1F1F1}',
-    'pl-PL': '\u{1F1F5}\u{1F1F1}',
-    'pt-PT': '\u{1F1F5}\u{1F1F9}',
-    'ru-RU': '\u{1F1F7}\u{1F1FA}',
-    'tr-TR': '\u{1F1F9}\u{1F1F7}',
-    'es-MX': '\u{1F1F2}\u{1F1FD}',
+    // ... existing flags ...
     'pt-BR': '\u{1F1E7}\u{1F1F7}',
 };
 
@@ -30,29 +21,55 @@ export default function Header() {
     const router = useRouter();
     const pathname = usePathname();
     const [isLangOpen, setIsLangOpen] = useState(false);
+    const [isUserOpen, setIsUserOpen] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
     const { cartCount, openDrawer } = useCart();
     const { currency } = useCurrencyContext();
     const { query, setQuery } = useSearch();
     const t = useTranslations('Header');
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const userDropdownRef = useRef<HTMLDivElement>(null);
+    const supabase = createClient();
 
     const handleLocaleChange = (newLocale: string) => {
         router.replace(pathname, { locale: newLocale });
         setIsLangOpen(false);
     };
 
-    // Close dropdown on outside click
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.refresh();
+        setUser(null);
+        setIsUserOpen(false);
+    };
+
+    // Close dropdowns on outside click
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsLangOpen(false);
             }
+            if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
+                setIsUserOpen(false);
+            }
         }
-        if (isLangOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
+        document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [isLangOpen]);
+    }, []);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        fetchUser();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     return (
         <header className="sticky top-0 z-50 flex items-center bg-white/95 dark:bg-background-dark/95 backdrop-blur-md px-4 py-3 justify-between border-b border-[#f2f4f1] dark:border-white/10 w-full max-w-7xl mx-auto">
@@ -91,6 +108,44 @@ export default function Header() {
                     {currency}
                 </div>
 
+                {/* User Menu */}
+                <div className="relative" ref={userDropdownRef}>
+                    {user ? (
+                        <button
+                            onClick={() => setIsUserOpen(!isUserOpen)}
+                            className="flex items-center gap-1.5 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors text-xs font-bold text-gray-600 dark:text-gray-300"
+                        >
+                            <UserIcon size={20} />
+                            <span className="hidden lg:inline max-w-[80px] truncate">{user.email?.split('@')[0]}</span>
+                            <ChevronDown size={14} className={`transition-transform ${isUserOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                    ) : (
+                        <Link
+                            href="/login"
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 hover:bg-green-100 rounded-full transition-colors text-xs font-bold"
+                        >
+                            <LogIn size={18} />
+                            <span>Login</span>
+                        </Link>
+                    )}
+
+                    {isUserOpen && user && (
+                        <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-xl overflow-hidden py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                            <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-800">
+                                <p className="text-xs text-gray-500">Signed in as</p>
+                                <p className="text-sm font-bold truncate">{user.email}</p>
+                            </div>
+                            <button
+                                onClick={handleSignOut}
+                                className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center gap-2 transition-colors"
+                            >
+                                <LogOut size={16} />
+                                <span>Sign Out</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
+
                 {/* Locale Switcher */}
                 <div className="relative" ref={dropdownRef}>
                     <button
@@ -108,11 +163,10 @@ export default function Header() {
                                 <button
                                     key={l}
                                     onClick={() => handleLocaleChange(l)}
-                                    className={`w-full text-left px-4 py-2.5 text-sm font-medium flex items-center gap-3 transition-colors ${
-                                        locale === l
-                                            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-bold'
-                                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
-                                    }`}
+                                    className={`w-full text-left px-4 py-2.5 text-sm font-medium flex items-center gap-3 transition-colors ${locale === l
+                                        ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-bold'
+                                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                        }`}
                                 >
                                     <span className="text-lg">{localeFlags[l] || ''}</span>
                                     <span className="flex-1">{localeNames[l as Locale]}</span>

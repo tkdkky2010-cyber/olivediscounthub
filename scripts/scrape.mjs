@@ -2,12 +2,16 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import robotsParser from 'robots-parser';
+import fetch from 'node-fetch';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const OUTPUT_DIR = path.join(__dirname, '../public/products');
 const DATA_FILE = path.join(__dirname, '../src/data/scraped_products.json');
+const ROBOTS_TXT_URL = 'https://www.oliveyoung.co.kr/robots.txt';
+const USER_AGENT = 'OliveRankingInfoBot/1.0 (https://olive-discount-hub.com; crawler@olive-discount-hub.com)';
 
 // Ensure directories exist
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -17,11 +21,48 @@ if (!fs.existsSync(path.dirname(DATA_FILE))) {
     fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
 }
 
+/**
+ * Check robots.txt compliance
+ */
+async function checkRobotsTxt(targetUrl) {
+    try {
+        console.log('🤖 Checking robots.txt...');
+        const response = await fetch(ROBOTS_TXT_URL);
+        const robotsTxt = await response.text();
+
+        const robots = robotsParser(ROBOTS_TXT_URL, robotsTxt);
+        const isAllowed = robots.isAllowed(targetUrl, USER_AGENT);
+
+        if (!isAllowed) {
+            console.error('❌ CRITICAL: Crawling disallowed by robots.txt');
+            console.error('   Target URL:', targetUrl);
+            return false;
+        }
+
+        console.log('✅ robots.txt check passed');
+        return true;
+    } catch (error) {
+        console.error('⚠️ Failed to check robots.txt (ignoring):', error.message);
+        return true; // Proceed with caution if check fails
+    }
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function scrape() {
-    console.log('Starting Playwright Scraper for Olive Young Best 100...');
+    console.log('🚀 Starting Improved Playwright Scraper for Olive Young Best 100...');
+    
+    const baseUrl = 'https://www.oliveyoung.co.kr/store/main/getBestList.do';
+    if (!(await checkRobotsTxt(baseUrl))) {
+        process.exit(1);
+    }
+
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
-        userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+        userAgent: USER_AGENT,
+        viewport: { width: 1920, height: 1080 }
     });
     const page = await context.newPage();
 
@@ -31,22 +72,17 @@ async function scrape() {
     try {
         // Loop through 5 pages
         for (let idx = 1; idx <= 5; idx++) {
-            console.log(`Navigating to page ${idx}...`);
-            // fltDispCatNo= is empty for All categories
-            const url = `https://www.oliveyoung.co.kr/store/main/getBestList.do?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=${idx}&rowsPerPage=20`;
+            console.log(`\n🔗 Navigating to page ${idx}...`);
+            const url = `${baseUrl}?dispCatNo=900000100100001&fltDispCatNo=&pageIdx=${idx}&rowsPerPage=20`;
 
-            await page.goto(url, { waitUntil: 'domcontentloaded' });
-            // Wait for list to appear
-            await page.waitForSelector('.cate_prd_list li', { timeout: 10000 });
+            await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForSelector('.cate_prd_list li', { timeout: 15000 });
 
-            console.log(`Extracting data from page ${idx}...`);
+            console.log(`📊 Extracting data from page ${idx}...`);
 
-            // Extract basic info in browser context
             const items = await page.evaluate(() => {
                 const list = document.querySelectorAll('.cate_prd_list li');
                 return Array.from(list).map(el => {
-                    // ID extraction
-                    // The attribute is on the <a> tag or <button> inside <li>
                     let id = el.querySelector('[data-ref-goodsno]')?.getAttribute('data-ref-goodsno');
 
                     const linkEl = el.querySelector('a');
@@ -56,28 +92,21 @@ async function scrape() {
                         if (match) id = match[1];
                     }
 
-                    // Image
                     const imgEl = el.querySelector('img');
-                    let imgUrl = imgEl ? (imgEl.src || imgEl.dataset.original) : null;
+                    let imgUrl = imgEl ? (imgEl.src || imgEl.dataset.original || imgEl.dataset.src) : null;
                     if (imgUrl && imgUrl.includes('onerror')) imgUrl = null;
 
-                    // Brand & Name
                     const brand = el.querySelector('.tx_brand')?.innerText.trim() || '';
                     const name = el.querySelector('.tx_name')?.innerText.trim() || '';
 
-                    // Price - Selector was .tx_num inside .tx_org/.tx_cur
                     let orgPrice = el.querySelector('.tx_org .tx_num')?.innerText;
-                    if (!orgPrice) orgPrice = el.querySelector('.price-1 strike')?.innerText;
-
                     let curPrice = el.querySelector('.tx_cur .tx_num')?.innerText;
-                    if (!curPrice) curPrice = el.querySelector('.price-2 strong')?.innerText;
 
-                    // Cleanup prices
                     if (orgPrice) orgPrice = orgPrice.replace(/,/g, '').trim();
                     if (curPrice) curPrice = curPrice.replace(/,/g, '').trim();
 
                     return {
-                        id, // Return as string
+                        id,
                         brand,
                         name,
                         originalPrice: orgPrice,
@@ -88,13 +117,12 @@ async function scrape() {
                 });
             });
 
-            console.log(`Found ${items.length} items on page ${idx}.`);
+            console.log(`✅ Found ${items.length} items on page ${idx}.`);
 
             for (const item of items) {
                 if (rank > 100) break;
                 if (!item.id && !item.link) continue;
 
-                // Download Image using Playwright request context (shares cookies/headers)
                 let localImagePath = '/images/placeholder.png';
                 if (item.imgUrl) {
                     try {
@@ -105,24 +133,18 @@ async function scrape() {
                         const filename = `rank_${rank}_${item.id}${ext}`;
                         const filePath = path.join(OUTPUT_DIR, filename);
 
+                        // Download using request context for better reliability
                         const response = await context.request.get(imageUrl);
                         if (response.ok()) {
                             const buffer = await response.body();
                             fs.writeFileSync(filePath, buffer);
                             localImagePath = `/products/${filename}`;
                         } else {
-                            console.log(`Failed to download image ${imageUrl}: ${response.status()}`);
+                            console.log(`⚠️ Failed to download image ${imageUrl}: ${response.status()}`);
                         }
                     } catch (err) {
-                        console.error(`Error downloading image for rank ${rank}:`, err);
+                        console.error(`❌ Error downloading image for rank ${rank}:`, err.message);
                     }
-                }
-
-                // Construct full link if needed (rare with playwright as href is usually absolute)
-                // But just in case
-                let finalLink = item.link;
-                if (finalLink && !finalLink.startsWith('http')) {
-                    finalLink = `https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=${item.id}`;
                 }
 
                 products.push({
@@ -134,22 +156,23 @@ async function scrape() {
                     originalPrice: item.originalPrice ? Number(item.originalPrice) : Number(item.currentPrice),
                     currentPrice: Number(item.currentPrice),
                     imageUrl: localImagePath,
-                    link: finalLink
+                    link: item.link || `https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=${item.id}`
                 });
 
-                process.stdout.write(`\rScraped ${rank}/100`);
+                process.stdout.write(`\r✅ Scraped ${rank}/100`);
                 rank++;
             }
-            // Be polite
-            await page.waitForTimeout(1000);
+            
+            // Polite delay between pages
+            await delay(2000);
         }
 
-        console.log('\nSaving data...');
+        console.log('\n💾 Saving data to JSON...');
         fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
-        console.log(`Done! Saved ${products.length} products.`);
+        console.log(`🎉 Done! Saved ${products.length} products to ${DATA_FILE}`);
 
     } catch (e) {
-        console.error('Playwright Scrape failed:', e);
+        console.error('❌ Playwright Scrape failed:', e);
     } finally {
         await browser.close();
     }
